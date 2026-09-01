@@ -1,0 +1,24 @@
+{
+  "ok": true,
+  "mode": "test",
+  "key_id_prefix": "rzp_test_TWn",
+  "created": {
+    "id": "plink_TW…YEIq",
+    "reference_id_prefix": "qr_spike_mti",
+    "amount": "100",
+    "currency": "INR",
+    "status": "created",
+    "short_url_host": "rzp.io"
+  },
+  "fetched_status": "created",
+  "list_http_status": 200,
+  "list_keys": [
+    "payment_links"
+  ],
+  "list_entity": null,
+  "list_count": null,
+  "reference_lookup": "unique",
+  "cancelled_status": "cancelled",
+  "create_timeout_strategy": "reconcile by GET /payment_links?reference_id=",
+  "generated_at": "2026-09-01T14:29:27.364Z"
+}

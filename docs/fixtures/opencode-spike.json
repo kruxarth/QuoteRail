@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "model": "gpt-5.6-luna",
+  "base_url": "https://opencode.ai/zen/go/v1",
+  "responses_post_count": 1,
+  "latency_ms": 2271,
+  "schema_valid": true,
+  "object": {
+    "merchant": "Mosaic Events Bengaluru",
+    "city": "Bengaluru",
+    "currency": "INR"
+  },
+  "usage": {
+    "input_tokens": 66,
+    "output_tokens": 27,
+    "total_tokens": 93
+  },
+  "provider_storage": "disabled via providerOptions.openai.store=false",
+  "generated_at": "2026-09-01T14:28:22.485Z"
+}

@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: quoterail-postgres
+    environment:
+      POSTGRES_USER: quoterail
+      POSTGRES_PASSWORD: quoterail
+      POSTGRES_DB: quoterail
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U quoterail"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - quoterail_pg:/var/lib/postgresql/data
+
+volumes:
+  quoterail_pg:

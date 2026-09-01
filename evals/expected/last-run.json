@@ -1,0 +1,343 @@
+{
+  "model": "gpt-5.6-luna",
+  "prompt_versions": {
+    "extraction": "extraction.v1",
+    "planner": "planner.v1"
+  },
+  "generated_at": "2026-08-31T11:06:21.193Z",
+  "case_count": 30,
+  "elapsed_ms": 1613,
+  "p95_latency_ms": 108,
+  "results": [
+    {
+      "id": "rfq-01",
+      "category": "feasible",
+      "status": "quoted",
+      "option_count": 1,
+      "latency_ms": 81,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-02",
+      "category": "feasible",
+      "status": "quoted",
+      "option_count": 1,
+      "latency_ms": 56,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-03",
+      "category": "feasible",
+      "status": "quoted",
+      "option_count": 1,
+      "latency_ms": 95,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-04",
+      "category": "feasible",
+      "status": "quoted",
+      "option_count": 1,
+      "latency_ms": 98,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-05",
+      "category": "feasible",
+      "status": "quoted",
+      "option_count": 1,
+      "latency_ms": 47,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-06",
+      "category": "feasible",
+      "status": "quoted",
+      "option_count": 1,
+      "latency_ms": 80,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-07",
+      "category": "feasible",
+      "status": "quoted",
+      "option_count": 1,
+      "latency_ms": 74,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-08",
+      "category": "feasible",
+      "status": "quoted",
+      "option_count": 1,
+      "latency_ms": 42,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-09",
+      "category": "infeasible-budget",
+      "status": "quoted",
+      "option_count": 3,
+      "latency_ms": 170,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-10",
+      "category": "infeasible-budget",
+      "status": "quoted",
+      "option_count": 1,
+      "latency_ms": 84,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-11",
+      "category": "infeasible-budget",
+      "status": "quoted",
+      "option_count": 2,
+      "latency_ms": 108,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-12",
+      "category": "infeasible-budget",
+      "status": "quoted",
+      "option_count": 1,
+      "latency_ms": 74,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-13",
+      "category": "infeasible-budget",
+      "status": "escalated",
+      "option_count": 0,
+      "latency_ms": 77,
+      "clarificationOk": true,
+      "feasibleOk": false,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-14",
+      "category": "infeasible-budget",
+      "status": "escalated",
+      "option_count": 0,
+      "latency_ms": 22,
+      "clarificationOk": true,
+      "feasibleOk": false,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-15",
+      "category": "unavailable",
+      "status": "quoted",
+      "option_count": 1,
+      "latency_ms": 39,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-16",
+      "category": "unavailable",
+      "status": "quoted",
+      "option_count": 1,
+      "latency_ms": 65,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-17",
+      "category": "unavailable",
+      "status": "escalated",
+      "option_count": 0,
+      "latency_ms": 22,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-18",
+      "category": "unavailable",
+      "status": "escalated",
+      "option_count": 0,
+      "latency_ms": 20,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-19",
+      "category": "missing",
+      "status": "needs_clarification",
+      "option_count": 0,
+      "latency_ms": 19,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-20",
+      "category": "missing",
+      "status": "needs_clarification",
+      "option_count": 0,
+      "latency_ms": 13,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-21",
+      "category": "missing",
+      "status": "needs_clarification",
+      "option_count": 0,
+      "latency_ms": 8,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-22",
+      "category": "missing",
+      "status": "needs_clarification",
+      "option_count": 0,
+      "latency_ms": 10,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-23",
+      "category": "dietary",
+      "status": "escalated",
+      "option_count": 0,
+      "latency_ms": 65,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-24",
+      "category": "dietary",
+      "status": "escalated",
+      "option_count": 0,
+      "latency_ms": 77,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-25",
+      "category": "dietary",
+      "status": "quoted",
+      "option_count": 1,
+      "latency_ms": 44,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-26",
+      "category": "dietary",
+      "status": "quoted",
+      "option_count": 1,
+      "latency_ms": 18,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-27",
+      "category": "adversarial",
+      "status": "quoted",
+      "option_count": 3,
+      "latency_ms": 43,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-28",
+      "category": "adversarial",
+      "status": "escalated",
+      "option_count": 0,
+      "latency_ms": 16,
+      "clarificationOk": true,
+      "feasibleOk": false,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-29",
+      "category": "adversarial",
+      "status": "quoted",
+      "option_count": 1,
+      "latency_ms": 26,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    },
+    {
+      "id": "rfq-30",
+      "category": "adversarial",
+      "status": "quoted",
+      "option_count": 1,
+      "latency_ms": 20,
+      "clarificationOk": true,
+      "feasibleOk": true,
+      "blockedDiscount": true,
+      "error": null
+    }
+  ]
+}
