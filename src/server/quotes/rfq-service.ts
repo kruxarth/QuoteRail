@@ -39,10 +39,12 @@ import { extractedRequirementsSchema } from '@/shared/schemas';
 import { priceCandidate, type PricingOffering } from '@/server/pricing/engine';
 import { evaluatePolicy, policySnapshotHash, type AvailabilityEvidence } from '@/server/policy/engine';
 import { evidenceForOffering, expireStaleReservations } from '@/server/availability/capacity';
+import { demoDates } from '@/server/availability/slots';
 import { assertRfqTransition, canContinueRfq } from '@/server/policy/transitions';
 import { formatInr } from '@/shared/money';
 import { MERCHANT_ID } from '@/server/catalog/seed';
 import { logEvent } from '@/server/log';
+import { buyerNextAction, humanizePlanningFailures } from '@/server/quotes/rfq-story';
 
 export type QuotePublicOption = {
   quote_id: string;
@@ -122,6 +124,23 @@ function budgetCoverageFeedback(
       : '2. Nearby weekday, HALL-STUDIO, keep AV-PRO, DINNER-PREMIUM, VALET-CREW, STAGE-BRANDED, EVENT-OPS.',
     '3. You may keep one exact-spec candidate that declares a budget relaxation.',
   ].join('\n');
+}
+
+function planningRevisionFeedback(
+  requirements: ExtractedRequirements,
+  valid: Array<{ candidate: CandidatePlan; priced: { totalPrice: bigint } }>,
+  failures: string[],
+  now: Date,
+): string {
+  const dates = demoDates({ now: () => now });
+  const lead = `48-hour lead includes the 2-hour setup buffer. Earliest Friday evening that clears it is ${dates.friday}; Thursday alternative ${dates.thursday}. If the requested date fails lead time, move the event and declare a date relaxation.`;
+  if (valid.length === 0 && failures.length > 0) {
+    return `Validation failures:\n${failures.join('\n')}\n${lead}`;
+  }
+  if (!meetsBuyerBudget(valid, requirements.budget_subunits)) {
+    return `${budgetCoverageFeedback(requirements, valid)}\n${lead}`;
+  }
+  return `Validation failures:\n${failures.join('\n')}\n${lead}`;
 }
 
 async function loadOfferings(database: Database): Promise<PricingOffering[]> {
@@ -410,6 +429,7 @@ export async function runPlanner(params: {
   options: QuotePublicOption[];
   public_quote_url?: string;
   reason?: string;
+  next_action?: string;
 }> {
   const database = params.database ?? db;
   const adapter = params.adapter ?? createModelAdapter();
@@ -462,6 +482,7 @@ export async function runPlanner(params: {
       clarification_questions: [],
       options: [],
       reason: 'Seller planner is temporarily unavailable. Retry with continue_rfq.',
+      next_action: buyerNextAction('retryable_error'),
     };
   }
 
@@ -512,6 +533,7 @@ export async function runPlanner(params: {
       status: 'needs_clarification',
       clarification_questions: requirements.clarification_questions,
       options: [],
+      next_action: buyerNextAction('needs_clarification'),
     };
   }
 
@@ -564,9 +586,7 @@ export async function runPlanner(params: {
       valid = mergeValidCandidates(valid, checked.valid);
       lastFailures = checked.failures;
       if (valid.length >= 2 && meetsBuyerBudget(valid, requirements.budget_subunits)) break;
-      feedback = meetsBuyerBudget(valid, requirements.budget_subunits)
-        ? `Validation failures:\n${checked.failures.join('\n')}`
-        : budgetCoverageFeedback(requirements, valid);
+      feedback = planningRevisionFeedback(requirements, valid, checked.failures, now);
     }
   } catch (error) {
     const deadlineHit = Date.now() >= deadline || (error instanceof Error && /timeout|abort/i.test(error.message));
@@ -589,11 +609,14 @@ export async function runPlanner(params: {
       clarification_questions: [],
       options: [],
       reason: 'Seller planner is temporarily unavailable. Retry with continue_rfq.',
+      next_action: buyerNextAction('retryable_error'),
     };
   }
   void signal;
 
   if (valid.length === 0) {
+    const dates = demoDates({ now: () => now });
+    const reason = humanizePlanningFailures(lastFailures, dates);
     assertRfqTransition('planning', 'escalated');
     await database.update(rfqs).set({ status: 'escalated', updatedAt: now }).where(eq(rfqs.id, rfq.id));
     await appendAudit(database, {
@@ -603,13 +626,15 @@ export async function runPlanner(params: {
       entityType: 'rfq',
       entityId: rfq.id,
       summary: lastFailures.join('; ') || 'No safe feasible option',
+      reason,
     });
     return {
       rfq_id: rfq.id,
       status: 'escalated',
       clarification_questions: [],
       options: [],
-      reason: lastFailures.join('; ') || 'No safe feasible option after bounded planning',
+      reason,
+      next_action: buyerNextAction('escalated'),
     };
   }
 
@@ -629,6 +654,7 @@ export async function runPlanner(params: {
     clarification_questions: [],
     options,
     public_quote_url: options[0] ? `/quote/${options[0].quote_id}` : undefined,
+    next_action: buyerNextAction('quoted'),
   };
 }
 
@@ -709,6 +735,13 @@ export async function continueRfq(params: {
     throw new DomainError('not_found', 'RFQ not found', 404);
   }
   if (!canContinueRfq(rfq.status)) {
+    if (rfq.status === 'escalated') {
+      throw new DomainError(
+        'illegal_transition',
+        'This RFQ was handed to Mosaic. Send a new request_quote with a later date or fewer requirements. continue_rfq is not available after escalation.',
+        409,
+      );
+    }
     throw new DomainError('illegal_transition', `Cannot continue RFQ in status ${rfq.status}`, 409);
   }
   if (rfq.status === 'needs_clarification' && !params.answers.trim()) {
@@ -850,5 +883,6 @@ export async function getRfqPublic(params: {
       tradeoffs: quote.tradeoffs,
       assumptions: quote.assumptions,
     })),
+    next_action: buyerNextAction(rfq.status),
   };
 }

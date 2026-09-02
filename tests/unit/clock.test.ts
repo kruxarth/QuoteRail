@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { FrozenClock, nextFridayAfter, thursdayBefore, istDateString, rangesOverlap, bufferedRange, istDateTime } from '@/shared/clock';
+import { demoDates } from '@/server/availability/slots';
 import { FROZEN_DEMO_FRIDAY, FROZEN_DEMO_THURSDAY, FROZEN_TEST_NOW } from '@/shared/constants';
 
 describe('clock', () => {
@@ -8,6 +9,12 @@ describe('clock', () => {
     expect(istDateString(clock.now())).toBe('2026-09-07');
     expect(nextFridayAfter(clock.now())).toBe(FROZEN_DEMO_FRIDAY);
     expect(thursdayBefore(FROZEN_DEMO_FRIDAY)).toBe(FROZEN_DEMO_THURSDAY);
+  });
+
+  it('skips a Friday whose evening slot misses the 48-hour lead gate', () => {
+    const lateWednesday = new FrozenClock(new Date('2026-09-02T16:45:00+05:30'));
+    expect(nextFridayAfter(lateWednesday.now())).toBe('2026-09-04');
+    expect(demoDates(lateWednesday)).toEqual({ friday: '2026-09-11', thursday: '2026-09-10' });
   });
 
   it('detects overlapping buffered ranges', () => {

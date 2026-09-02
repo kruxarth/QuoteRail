@@ -6,7 +6,7 @@ test('merchant login and dashboard', async ({ page }) => {
   await page.getByRole('button', { name: 'Sign in' }).click();
   await expect(page.getByRole('heading', { name: 'Operations console' })).toBeVisible();
   await expect(page.getByText('Hall availability')).toBeVisible();
-  await expect(page.getByText('RFQs')).toBeVisible();
+  await expect(page.getByText('Enquiries')).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Grand Hall' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Studio Hall' })).toBeVisible();
   await expect(page.getByText(/available|blocked|held|committed/i).first()).toBeVisible();

@@ -12,7 +12,13 @@ export function TransactionStatus({
     lastFailureCode?: string | null;
   } | null;
 }) {
-  if (!link) return <p className="text-sm text-slate-500">No checkout yet.</p>;
+  if (!link) {
+    return (
+      <p className="text-sm text-slate-500">
+        No Razorpay checkout. A deposit link is created only after the buyer accepts a quoted package.
+      </p>
+    );
+  }
   const tone =
     link.status === 'paid' ? 'ok' : link.status === 'issued' ? 'warn' : link.status === 'stopped' || link.status === 'error' ? 'danger' : 'neutral';
   return (

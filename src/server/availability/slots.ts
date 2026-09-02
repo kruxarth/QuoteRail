@@ -1,6 +1,7 @@
-import { SETUP_BUFFER_HOURS } from '@/shared/constants';
+import { MIN_BOOKING_LEAD_HOURS, SETUP_BUFFER_HOURS } from '@/shared/constants';
 import {
   addDays,
+  addHours,
   bufferedRange,
   nextFridayAfter,
   slotRange,
@@ -11,8 +12,20 @@ import type { Clock } from '@/shared/clock';
 
 export const DEMO_WINDOWS: SlotWindow[] = ['morning', 'afternoon', 'evening'];
 
+export function eveningSlotMeetsLead(date: string, now: Date): boolean {
+  const range = slotRange(date, 'evening');
+  const buffered = bufferedRange(range.startsAt, range.endsAt, SETUP_BUFFER_HOURS);
+  return buffered.bufferStartsAt.getTime() >= addHours(now, MIN_BOOKING_LEAD_HOURS).getTime();
+}
+
 export function demoDates(clock: Clock): { friday: string; thursday: string } {
-  const friday = nextFridayAfter(clock.now());
+  let friday = nextFridayAfter(clock.now());
+  for (let week = 0; week < 4; week += 1) {
+    if (eveningSlotMeetsLead(friday, clock.now())) {
+      return { friday, thursday: thursdayBefore(friday) };
+    }
+    friday = addDays(friday, 7);
+  }
   return { friday, thursday: thursdayBefore(friday) };
 }
 

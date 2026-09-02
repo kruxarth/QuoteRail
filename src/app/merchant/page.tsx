@@ -10,6 +10,7 @@ import { AvailabilityCalendar } from '@/components/availability-calendar';
 import { AuditTimeline } from '@/components/audit-timeline';
 import { demoResetEnabled, getEnv } from '@/env';
 import { DemoReset } from '@/app/merchant/demo-reset';
+import { enquiryHeadline, rfqStatusCopy } from '@/server/quotes/rfq-story';
 
 export default async function MerchantDashboardPage() {
   const jar = await cookies();
@@ -49,31 +50,29 @@ export default async function MerchantDashboardPage() {
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>RFQs</CardTitle>
+          <CardTitle>Enquiries</CardTitle>
         </CardHeader>
         <CardContent>
           <ul className="divide-y">
             {data.rfqs.length === 0 ? <li className="py-6 text-sm text-slate-500">No enquiries yet.</li> : null}
-            {data.rfqs.map((rfq) => (
-              <li key={rfq.id} className="flex items-center justify-between py-3 text-sm">
-                <Link href={`/merchant/rfqs/${rfq.id}`} className="font-medium hover:underline">
-                  {rfq.id.slice(0, 8)} · {rfq.sanitizedRequest.slice(0, 80)}
-                </Link>
-                <Badge
-                  tone={
-                    rfq.status === 'quoted'
-                      ? 'ok'
-                      : rfq.status === 'needs_clarification'
-                        ? 'warn'
-                        : rfq.status === 'escalated'
-                          ? 'danger'
-                          : 'info'
-                  }
-                >
-                  {rfq.status}
-                </Badge>
-              </li>
-            ))}
+            {data.rfqs.map((rfq) => {
+              const story = rfqStatusCopy(rfq.status);
+              return (
+                <li key={rfq.id} className="flex items-center justify-between gap-4 py-3 text-sm">
+                  <Link href={`/merchant/rfqs/${rfq.id}`} className="min-w-0 hover:underline">
+                    <span className="block font-medium">
+                      {enquiryHeadline(rfq.sanitizedRequest || rfq.rawRequest, rfq.parsedRequirements)}
+                    </span>
+                    <span className="mt-0.5 block truncate text-xs text-slate-500">
+                      {rfq.createdAt.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} · {rfq.id.slice(0, 8)}
+                    </span>
+                  </Link>
+                  <Badge tone={story.tone} className="shrink-0">
+                    {story.title}
+                  </Badge>
+                </li>
+              );
+            })}
           </ul>
         </CardContent>
       </Card>

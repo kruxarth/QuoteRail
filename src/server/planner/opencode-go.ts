@@ -9,6 +9,7 @@ import { PLANNER_SYSTEM_PROMPT } from '@/server/planner/prompts/planning';
 import { assertNoPriceFields } from '@/shared/schemas';
 import type { CandidateSet, ExtractedRequirements } from '@/shared/schemas';
 import type { ModelAdapter } from '@/server/planner/types';
+import { demoDates } from '@/server/availability/slots';
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -100,6 +101,8 @@ export class OpenCodeGoAdapter implements ModelAdapter {
           `Current instant: ${input.clock.now().toISOString()}`,
           `Calendar date: ${istDateString(input.clock.now())}`,
           `Timezone: Asia/Kolkata`,
+          `Earliest Friday evening that meets 48-hour lead: ${demoDates(input.clock).friday}`,
+          `Thursday alternative: ${demoDates(input.clock).thursday}`,
           '',
           'ACTIVE_OFFERINGS',
           JSON.stringify(input.offerings),

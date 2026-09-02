@@ -142,7 +142,8 @@ export function createQuoteRailMcpHandler() {
         'continue_rfq',
         {
           title: 'Continue an RFQ',
-          description: 'Answer clarification questions or retry a recoverable RFQ.',
+          description:
+            'Answer clarification questions or retry a recoverable RFQ. Not available after escalation — send a new request_quote instead.',
           inputSchema: z
             .object({
               rfq_id: entityIdSchema,
@@ -170,7 +171,7 @@ export function createQuoteRailMcpHandler() {
         'get_rfq',
         {
           title: 'Get RFQ',
-          description: 'Read back RFQ status, options, and payment summary. Does not change state.',
+          description: 'Read back RFQ status, options, and what to do next. Does not change state.',
           inputSchema: z.object({ rfq_id: entityIdSchema }).strict(),
           annotations: { readOnlyHint: true, openWorldHint: false },
         },
