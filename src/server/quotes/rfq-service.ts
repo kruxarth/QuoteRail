@@ -35,6 +35,7 @@ import { evidenceForOffering, expireStaleReservations } from '@/server/availabil
 import { assertRfqTransition, canContinueRfq } from '@/server/policy/transitions';
 import { formatInr } from '@/shared/money';
 import { MERCHANT_ID } from '@/server/catalog/seed';
+import { logEvent } from '@/server/log';
 
 export type QuotePublicOption = {
   quote_id: string;
@@ -57,6 +58,11 @@ export type QuotePublicOption = {
 
 function remainingMs(deadline: number): number {
   return Math.max(0, deadline - Date.now());
+}
+
+function providerErrorDetail(error: unknown): string {
+  if (error instanceof Error && error.message.trim()) return error.message.slice(0, 400);
+  return 'unknown provider error';
 }
 
 async function loadOfferings(database: Database): Promise<PricingOffering[]> {
@@ -349,10 +355,17 @@ export async function runPlanner(params: {
   const database = params.database ?? db;
   const adapter = params.adapter ?? createModelAdapter();
   const deadline = Date.now() + RFQ_DEADLINE_MS;
-  const [rfq] = await database.select().from(rfqs).where(eq(rfqs.id, params.rfqId)).limit(1);
-  if (!rfq) throw new DomainError('not_found', 'RFQ not found', 404);
+  const [loaded] = await database.select().from(rfqs).where(eq(rfqs.id, params.rfqId)).limit(1);
+  if (!loaded) throw new DomainError('not_found', 'RFQ not found', 404);
   const now = params.clock.now();
   await expireStaleReservations(database, now);
+
+  let rfq = loaded;
+  if (rfq.status !== 'planning') {
+    assertRfqTransition(rfq.status, 'planning');
+    await database.update(rfqs).set({ status: 'planning', updatedAt: now }).where(eq(rfqs.id, rfq.id));
+    rfq = { ...rfq, status: 'planning' };
+  }
 
   const signal = AbortSignal.timeout(remainingMs(deadline));
   let requirements: ExtractedRequirements;
@@ -365,30 +378,32 @@ export async function runPlanner(params: {
     });
     requirements = extractedRequirementsSchema.parse(extracted);
   } catch (error) {
-    if (Date.now() >= deadline || (error instanceof Error && error.name === 'TimeoutError')) {
-      assertRfqTransition(rfq.status, 'retryable_error');
-      await database.update(rfqs).set({ status: 'retryable_error', updatedAt: now }).where(eq(rfqs.id, rfq.id));
-      await appendAudit(database, {
-        traceId: rfq.traceId,
-        actorType: 'system',
-        eventType: 'agent.deadline_exceeded',
-        entityType: 'rfq',
-        entityId: rfq.id,
-        summary: 'RFQ processing hit the 50-second deadline during extraction',
-      });
-      return { rfq_id: rfq.id, status: 'retryable_error', clarification_questions: [], options: [] };
-    }
+    const deadlineHit = Date.now() >= deadline || (error instanceof Error && error.name === 'TimeoutError');
+    const detail = providerErrorDetail(error);
+    logEvent(deadlineHit ? 'rfq.extract_deadline' : 'rfq.extract_failed', {
+      rfq_id: rfq.id,
+      message: detail,
+    });
     assertRfqTransition(rfq.status, 'retryable_error');
     await database.update(rfqs).set({ status: 'retryable_error', updatedAt: now }).where(eq(rfqs.id, rfq.id));
     await appendAudit(database, {
       traceId: rfq.traceId,
       actorType: 'system',
-      eventType: 'agent.provider_unavailable',
+      eventType: deadlineHit ? 'agent.deadline_exceeded' : 'agent.provider_unavailable',
       entityType: 'rfq',
       entityId: rfq.id,
-      summary: 'Model provider failed during extraction',
+      summary: deadlineHit
+        ? 'RFQ processing hit the 50-second deadline during extraction'
+        : 'Model provider failed during extraction',
+      reason: detail,
     });
-    return { rfq_id: rfq.id, status: 'retryable_error', clarification_questions: [], options: [] };
+    return {
+      rfq_id: rfq.id,
+      status: 'retryable_error',
+      clarification_questions: [],
+      options: [],
+      reason: 'Seller planner is temporarily unavailable. Retry with continue_rfq.',
+    };
   }
 
   await database
@@ -441,9 +456,6 @@ export async function runPlanner(params: {
     };
   }
 
-  if (rfq.status !== 'planning') assertRfqTransition(rfq.status, 'planning');
-  await database.update(rfqs).set({ status: 'planning', updatedAt: now }).where(eq(rfqs.id, rfq.id));
-
   const catalog = await loadOfferings(database);
   let feedback: string | undefined;
   let valid: Awaited<ReturnType<typeof validateCandidates>>['valid'] = [];
@@ -474,9 +486,14 @@ export async function runPlanner(params: {
         entityId: rfq.id,
         summary: `Planner returned ${planned.candidates.length} candidates`,
       });
-      if (planned.cannot_proceed) {
-        lastFailures = [planned.escalation_reason];
-        break;
+      if (planned.cannot_proceed || planned.candidates.length === 0) {
+        lastFailures = [planned.escalation_reason || 'Planner returned no candidates'];
+        feedback = [
+          'Do not escalate for budget, date, or service-tier tension.',
+          'Propose 2-3 candidates using the required trade-offs: reduce service tier on the requested date, change date or hall to keep features, or keep the exact spec and relax budget.',
+          `Previous planner response: ${lastFailures.join('; ')}`,
+        ].join('\n');
+        continue;
       }
       const checked = await validateCandidates({
         database,
@@ -492,6 +509,9 @@ export async function runPlanner(params: {
     }
   } catch (error) {
     const deadlineHit = Date.now() >= deadline || (error instanceof Error && /timeout|abort/i.test(error.message));
+    const detail = providerErrorDetail(error);
+    logEvent(deadlineHit ? 'rfq.plan_deadline' : 'rfq.plan_failed', { rfq_id: rfq.id, message: detail });
+    assertRfqTransition('planning', 'retryable_error');
     await database.update(rfqs).set({ status: 'retryable_error', updatedAt: now }).where(eq(rfqs.id, rfq.id));
     await appendAudit(database, {
       traceId: rfq.traceId,
@@ -500,8 +520,15 @@ export async function runPlanner(params: {
       entityType: 'rfq',
       entityId: rfq.id,
       summary: deadlineHit ? 'Deadline exceeded during planning' : 'Provider unavailable during planning',
+      reason: detail,
     });
-    return { rfq_id: rfq.id, status: 'retryable_error', clarification_questions: [], options: [] };
+    return {
+      rfq_id: rfq.id,
+      status: 'retryable_error',
+      clarification_questions: [],
+      options: [],
+      reason: 'Seller planner is temporarily unavailable. Retry with continue_rfq.',
+    };
   }
   void signal;
 

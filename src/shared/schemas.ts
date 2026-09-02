@@ -32,12 +32,14 @@ export const prioritySchema = z.enum([
 ]);
 export const timePreferenceSchema = z.enum(['morning', 'afternoon', 'evening', 'exact']);
 
+// OpenAI/OpenCode structured output requires every property in `required`.
+// Defaults and .optional() omit keys and get rejected as invalid_json_schema.
 export const mealRequirementsSchema = z.object({
   total: z.number().int().nonnegative(),
-  jain: z.number().int().nonnegative().default(0),
-  vegan: z.number().int().nonnegative().default(0),
-  vegetarian: z.number().int().nonnegative().default(0),
-  other_notes: z.string().max(500).optional().default(''),
+  jain: z.number().int().nonnegative(),
+  vegan: z.number().int().nonnegative(),
+  vegetarian: z.number().int().nonnegative(),
+  other_notes: z.string().max(500),
 });
 
 export const extractedRequirementsSchema = z
@@ -48,22 +50,22 @@ export const extractedRequirementsSchema = z
     currency: z.literal('INR'),
     city: z.string().min(1).max(80),
     requested_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable(),
-    requested_date_phrase: z.string().max(120).optional().default(''),
+    requested_date_phrase: z.string().max(120),
     time_preference: timePreferenceSchema.nullable(),
     requested_start_time: z.string().regex(/^\d{2}:\d{2}$/).nullable(),
     duration_hours: z.number().positive().max(12).nullable(),
     layout: layoutSchema.nullable(),
-    required_capabilities: z.array(z.string().max(64)).max(20).default([]),
-    optional_capabilities: z.array(z.string().max(64)).max(20).default([]),
+    required_capabilities: z.array(z.string().max(64)).max(20),
+    optional_capabilities: z.array(z.string().max(64)).max(20),
     meal_requirements: mealRequirementsSchema.nullable(),
     parking_preference: parkingPreferenceSchema.nullable(),
     payment_preference: paymentPreferenceSchema.nullable(),
-    priorities: z.array(prioritySchema).max(8).default([]),
-    notes: z.string().max(1000).default(''),
-    missing_required_fields: z.array(z.string().max(64)).max(20).default([]),
-    clarification_questions: z.array(z.string().max(300)).max(6).default([]),
-    requested_additional_discount_bps: z.number().int().min(0).max(10_000).default(0),
-    suspicious_instruction: z.boolean().default(false),
+    priorities: z.array(prioritySchema).max(8),
+    notes: z.string().max(1000),
+    missing_required_fields: z.array(z.string().max(64)).max(20),
+    clarification_questions: z.array(z.string().max(300)).max(6),
+    requested_additional_discount_bps: z.number().int().min(0).max(10_000),
+    suspicious_instruction: z.boolean(),
   })
   .strict();
 
@@ -86,7 +88,7 @@ export const candidatePlanSchema = z
     hall_code: z.string().min(1).max(40),
     services: z.array(candidateServiceSchema).max(12),
     meal_allocation: mealRequirementsSchema,
-    original_constraints_satisfied: z.array(z.string().max(80)).max(20).default([]),
+    original_constraints_satisfied: z.array(z.string().max(80)).max(20),
     relaxed_constraints: z
       .array(
         z
@@ -96,10 +98,9 @@ export const candidatePlanSchema = z
           })
           .strict(),
       )
-      .max(12)
-      .default([]),
-    assumptions: z.array(z.string().max(300)).max(12).default([]),
-    requested_additional_discount_bps: z.number().int().min(0).max(1_000).default(0),
+      .max(12),
+    assumptions: z.array(z.string().max(300)).max(12),
+    requested_additional_discount_bps: z.number().int().min(0).max(1_000),
     rationale: z.string().max(800),
   })
   .strict()
@@ -135,8 +136,8 @@ export type CandidatePlan = z.infer<typeof candidatePlanSchema>;
 export const candidateSetSchema = z
   .object({
     candidates: z.array(candidatePlanSchema).max(3),
-    cannot_proceed: z.boolean().default(false),
-    escalation_reason: z.string().max(500).optional().default(''),
+    cannot_proceed: z.boolean(),
+    escalation_reason: z.string().max(500),
   })
   .strict();
 

@@ -29,7 +29,7 @@ export const ABSOLUTE_CEILING_PAISE = 35_000_000n;
 
 export const POLICY_VERSION = 'venue-policy.v1';
 export const EXTRACTION_PROMPT_VERSION = 'extraction.v1';
-export const PLANNER_PROMPT_VERSION = 'planner.v1';
+export const PLANNER_PROMPT_VERSION = 'planner.v2';
 export const SELLER_MODEL = 'gpt-5.6-luna';
 export const OPENCODE_GO_BASE_URL = 'https://opencode.ai/zen/go/v1';
 

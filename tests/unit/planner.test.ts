@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { z } from 'zod';
 import { FrozenClock } from '@/shared/clock';
 import { FROZEN_DEMO_FRIDAY, FROZEN_TEST_NOW } from '@/shared/constants';
 import { fakeExtract } from '@/server/planner/fake';
@@ -42,6 +43,16 @@ describe('fake extractor', () => {
     expect(req.requested_additional_discount_bps).toBe(9000);
     expect(req.suspicious_instruction).toBe(true);
     expect(() => candidatePlanSchema.parse({ total_price: 1 })).toThrow();
+  });
+
+  it('lists every meal_requirements key as required so OpenAI strict schema accepts nullable meals', () => {
+    const json = z.toJSONSchema(extractedRequirementsSchema) as {
+      properties: {
+        meal_requirements: { anyOf: Array<{ properties?: Record<string, unknown>; required?: string[] }> };
+      };
+    };
+    const objectBranch = json.properties.meal_requirements.anyOf.find((branch) => branch.properties);
+    expect(objectBranch?.required?.slice().sort()).toEqual(['jain', 'other_notes', 'total', 'vegan', 'vegetarian']);
   });
 });
 

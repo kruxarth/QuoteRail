@@ -116,6 +116,35 @@ describe('rfq integration', () => {
     void quoteAcceptances;
   }, 30_000);
 
+  it('marks retryable_error when extraction fails instead of throwing illegal_transition', async () => {
+    await resetDemo(db, clock);
+    const adapter = {
+      extract: async () => {
+        throw new Error('OpenCode Go unavailable');
+      },
+      plan: async () => {
+        throw new Error('should not plan');
+      },
+    };
+    const result = await requestQuote({
+      buyerSubject: buyer,
+      request: 'We need a Bengaluru venue for 120 people on Friday.',
+      clock,
+      adapter,
+    });
+    expect(result.status).toBe('retryable_error');
+    expect(result.rfq_id).toBeTruthy();
+    expect(result.options).toEqual([]);
+    const continued = await continueRfq({
+      buyerSubject: buyer,
+      rfqId: result.rfq_id,
+      answers: '',
+      clock,
+      adapter: new FakeModelAdapter(),
+    });
+    expect(['quoted', 'needs_clarification']).toContain(continued.status);
+  });
+
   it('asks for clarification when the RFQ is incomplete', async () => {
     await resetDemo(db, clock);
     const result = await requestQuote({

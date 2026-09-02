@@ -240,5 +240,8 @@ describe('audit and webhooks', () => {
 
   it('rejects illegal RFQ transitions', () => {
     expect(() => assertRfqTransition('closed', 'planning')).toThrow(DomainError);
+    expect(() => assertRfqTransition('received', 'retryable_error')).toThrow(DomainError);
+    expect(() => assertRfqTransition('received', 'planning')).not.toThrow();
+    expect(() => assertRfqTransition('planning', 'retryable_error')).not.toThrow();
   });
 });
