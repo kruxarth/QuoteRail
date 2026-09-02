@@ -13,7 +13,7 @@ export default async function PublicQuotePage({ params }: { params: Promise<{ id
     <main className="mx-auto max-w-3xl px-6 py-16">
       <p className="text-sm uppercase tracking-[0.2em] text-[var(--muted)]">Mosaic Events · Indiranagar</p>
       <div className="mt-3 flex flex-wrap items-center gap-3">
-        <h1 className="font-serif text-4xl">Proposal</h1>
+        <h1 className="font-semibold tracking-tight text-4xl">Proposal</h1>
         <Badge>{quote.status}</Badge>
       </div>
       <p className="mt-2 text-sm text-[var(--muted)]">

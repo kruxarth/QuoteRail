@@ -40,7 +40,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-t from-[#1c1914]/55 via-transparent to-[#1c1914]/10" />
         <div className="relative mx-auto flex min-h-[78vh] max-w-6xl flex-col justify-end px-6 pb-16 pt-28">
           <p className="text-sm uppercase tracking-[0.28em] text-amber-100/90">Indiranagar · Bengaluru</p>
-          <h1 className="mt-4 max-w-3xl font-serif text-5xl leading-[1.05] md:text-7xl">
+          <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
             The hall is ready. Send the brief.
           </h1>
           <p className="mt-6 max-w-xl text-lg text-amber-50/90">
@@ -60,7 +60,7 @@ export default function HomePage() {
 
       <section id="halls" className="mx-auto max-w-6xl px-6 py-20">
         <p className="text-sm uppercase tracking-[0.2em] text-[var(--muted)]">Two rooms</p>
-        <h2 className="mt-2 max-w-2xl font-serif text-4xl">Built for product launches, not weddings.</h2>
+        <h2 className="mt-2 max-w-2xl font-semibold tracking-tight text-4xl">Built for product launches, not weddings.</h2>
         <div className="mt-10 grid gap-8 md:grid-cols-2">
           {halls.map((hall) => (
             <article key={hall.name} className="overflow-hidden rounded-2xl border border-[var(--line)] bg-white">
@@ -68,7 +68,7 @@ export default function HomePage() {
                 <Image src={hall.image} alt={hall.name} fill className="object-cover" sizes="(min-width: 768px) 50vw, 100vw" />
               </div>
               <div className="p-6">
-                <h3 className="font-serif text-3xl">{hall.name}</h3>
+                <h3 className="font-semibold tracking-tight text-3xl">{hall.name}</h3>
                 <p className="mt-2 text-[var(--muted)]">{hall.copy}</p>
                 <p className="mt-4 text-sm font-medium">{hall.meta}</p>
               </div>
@@ -84,7 +84,7 @@ export default function HomePage() {
           </div>
           <div className="flex flex-col justify-center">
             <p className="text-sm uppercase tracking-[0.2em] text-[var(--muted)]">On the floor</p>
-            <h2 className="mt-2 font-serif text-4xl">AV, dinner, valet, stage — priced with the hall.</h2>
+            <h2 className="mt-2 font-semibold tracking-tight text-4xl">AV, dinner, valet, stage — priced with the hall.</h2>
             <ul className="mt-8 grid gap-4 sm:grid-cols-2">
               {services.map(([name, detail]) => (
                 <li key={name}>
@@ -99,7 +99,7 @@ export default function HomePage() {
 
       <section className="mx-auto max-w-6xl px-6 py-20">
         <p className="text-sm uppercase tracking-[0.2em] text-[var(--muted)]">How companies book</p>
-        <h2 className="mt-2 max-w-2xl font-serif text-4xl">Your agent talks to Mosaic. You approve the deposit.</h2>
+        <h2 className="mt-2 max-w-2xl font-semibold tracking-tight text-4xl">Your agent talks to Mosaic. You approve the deposit.</h2>
         <ol className="mt-10 grid gap-6 md:grid-cols-3">
           {[
             ['1', 'Send the brief', 'Date, headcount, AV, dinner, budget. From OpenCode or any purchasing agent.'],
@@ -107,8 +107,8 @@ export default function HomePage() {
             ['3', 'Pay on Razorpay', '40% deposit holds the room. Card details never pass through Mosaic.'],
           ].map(([n, title, copy]) => (
             <li key={n} className="rounded-2xl border border-[var(--line)] bg-white p-6">
-              <p className="font-serif text-3xl text-[var(--accent)]">{n}</p>
-              <h3 className="mt-3 font-serif text-2xl">{title}</h3>
+              <p className="font-semibold tracking-tight text-3xl text-[var(--accent)]">{n}</p>
+              <h3 className="mt-3 font-semibold tracking-tight text-2xl">{title}</h3>
               <p className="mt-2 text-sm text-[var(--muted)]">{copy}</p>
             </li>
           ))}

@@ -31,7 +31,7 @@ export default async function AgentPage() {
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
       <p className="text-sm uppercase tracking-[0.2em] text-[var(--muted)]">Corporate bookings</p>
-      <h1 className="mt-3 font-serif text-5xl leading-tight">Book Mosaic with the agent you already use.</h1>
+      <h1 className="mt-3 font-semibold tracking-tight text-5xl leading-tight">Book Mosaic with the agent you already use.</h1>
       <p className="mt-5 text-lg text-[var(--muted)]">
         Send a brief. Mosaic returns packages with prices. You accept one and pay the deposit on Razorpay — card details
         stay on Razorpay.

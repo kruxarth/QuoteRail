@@ -4,7 +4,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-20 border-b border-[var(--line)] bg-[var(--background)]/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="/" className="font-serif text-xl tracking-tight text-[var(--brand)]">
+        <Link href="/" className="text-xl font-semibold tracking-tight text-[var(--brand)]">
           Mosaic Events
         </Link>
         <nav className="flex items-center gap-6 text-sm">
@@ -28,7 +28,7 @@ export function SiteFooter() {
     <footer className="mt-auto border-t border-[var(--line)] bg-[#1f3d32] text-[#f4efe6]">
       <div className="mx-auto grid max-w-6xl gap-8 px-6 py-12 md:grid-cols-3">
         <div>
-          <p className="font-serif text-2xl">Mosaic Events</p>
+          <p className="font-semibold tracking-tight text-2xl">Mosaic Events</p>
           <p className="mt-2 text-sm text-emerald-100/80">Corporate venues in Indiranagar, Bengaluru.</p>
         </div>
         <div className="text-sm leading-relaxed text-emerald-100/80">
