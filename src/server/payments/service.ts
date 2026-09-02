@@ -356,6 +356,6 @@ function publicLink(
     expiry: link.expiresAt.toISOString(),
     status: link.status,
     payment_link_id: link.id,
-    statement: 'Review and complete payment on Razorpay. QuoteRail never collects payment credentials.',
+    statement: 'Pay this deposit on Razorpay. Mosaic never collects card details.',
   };
 }

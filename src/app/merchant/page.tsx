@@ -21,16 +21,16 @@ export default async function MerchantDashboardPage() {
   return (
     <main className="mx-auto max-w-6xl space-y-8 px-6 py-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Operations console</h1>
+        <h1 className="font-serif text-3xl">Operations</h1>
         {demoResetEnabled(getEnv()) ? <DemoReset /> : null}
       </div>
       <div className="grid gap-4 md:grid-cols-5">
         {[
           ['Active enquiries', String(data.kpis.activeEnquiries)],
           ['Quoted value', formatInr(data.kpis.quotedValue)],
-          ['Held units', String(data.kpis.heldBookingUnits)],
+          ['Slots on hold', String(data.kpis.heldBookingUnits)],
           ['Deposits paid', formatInr(data.kpis.depositsPaid)],
-          ['Blocked unsafe', String(data.kpis.blockedUnsafe)],
+          ['Stopped by policy', String(data.kpis.blockedUnsafe)],
         ].map(([label, value]) => (
           <Card key={label}>
             <CardHeader>
@@ -78,7 +78,7 @@ export default async function MerchantDashboardPage() {
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Recent audit</CardTitle>
+          <CardTitle>Activity</CardTitle>
         </CardHeader>
         <CardContent>
           <AuditTimeline

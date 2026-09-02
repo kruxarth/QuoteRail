@@ -13,7 +13,7 @@ export function DemoReset() {
         router.refresh();
       }}
     >
-      Reset demo data
+      Reset calendar
     </Button>
   );
 }

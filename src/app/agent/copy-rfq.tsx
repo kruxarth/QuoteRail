@@ -7,7 +7,7 @@ export function CopyRfq({ text }: { text: string }) {
   const [copied, setCopied] = useState(false);
   return (
     <div className="space-y-3">
-      <p className="whitespace-pre-wrap text-sm">{text}</p>
+      <p className="whitespace-pre-wrap rounded-xl bg-[var(--background)] p-4 text-sm text-[var(--foreground)]">{text}</p>
       <Button
         type="button"
         onClick={async () => {
@@ -15,7 +15,7 @@ export function CopyRfq({ text }: { text: string }) {
           setCopied(true);
         }}
       >
-        {copied ? 'Copied' : 'Copy demo RFQ'}
+        {copied ? 'Copied' : 'Copy brief'}
       </Button>
     </div>
   );

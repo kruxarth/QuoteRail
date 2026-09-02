@@ -105,9 +105,9 @@ export function rfqStatusCopy(status: string): {
       return {
         title: 'Needs a person',
         tone: 'danger',
-        what: 'QuoteRail stopped instead of inventing a date, price, or package that would break policy. The buyer agent was told there is nothing to accept.',
+        what: 'Mosaic stopped instead of inventing a date, price, or package that would break policy. The buyer agent was told there is nothing to accept.',
         sellerNext:
-          'Call or email the buyer. There is no seller-to-buyer chat in this demo — a message from your agent would just be another bot telling them to phone you. If they can move the date, they should send a new enquiry; this RFQ cannot be continued.',
+          'Call or email the buyer. Mosaic does not chat with their agent — a bot message would just tell them to phone you. If they can move the date, they should send a new enquiry; this one cannot be continued.',
       };
     case 'quoted':
       return {
@@ -120,7 +120,7 @@ export function rfqStatusCopy(status: string): {
       return {
         title: 'Waiting on the buyer',
         tone: 'warn',
-        what: 'Required details were missing, so QuoteRail asked the buyer agent to continue the RFQ.',
+        what: 'Required details were missing, so Mosaic asked the buyer agent to continue the enquiry.',
         sellerNext: 'No action unless they go quiet. You can still call them.',
       };
     case 'retryable_error':

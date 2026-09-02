@@ -14,7 +14,7 @@ export default function MerchantLoginPage() {
     <main className="mx-auto flex min-h-[70vh] max-w-md items-center px-6">
       <Card className="w-full">
         <CardHeader>
-          <CardTitle>Merchant console</CardTitle>
+          <CardTitle>Staff sign-in</CardTitle>
         </CardHeader>
         <CardContent>
           <form

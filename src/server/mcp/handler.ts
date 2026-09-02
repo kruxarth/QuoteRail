@@ -48,7 +48,7 @@ export function createQuoteRailMcpHandler() {
         { name: 'quoterail', version: '0.1.0' },
         {
           instructions:
-            'QuoteRail transacts with Mosaic Events Bengaluru. Prices, availability, and payment amounts are merchant-controlled. Payment credentials are entered only on Razorpay. Never send a checkout amount; accept a quote and create checkout from server-owned terms.',
+            'You are booking Mosaic Events Bengaluru. Prices, availability, and payment amounts are set by Mosaic. Payment credentials are entered only on Razorpay. Never send a checkout amount; accept a quote and create checkout from Mosaic’s terms.',
         },
       );
 

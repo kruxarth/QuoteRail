@@ -15,13 +15,13 @@ export default async function AgentPage() {
   const snippet = `{
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
-    "quoterail": {
+    "mosaic": {
       "type": "remote",
       "url": "${mcpUrl}",
       "enabled": true,
       "oauth": false,
       "headers": {
-        "Authorization": "Bearer {env:QUOTERAIL_BUYER_TOKEN}"
+        "Authorization": "Bearer {env:MOSAIC_BUYER_TOKEN}"
       },
       "timeout": 60000
     }
@@ -29,42 +29,41 @@ export default async function AgentPage() {
 }`;
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-12 space-y-8">
-      <div>
-        <h1 className="text-3xl font-semibold">Bring your existing AI agent</h1>
-        <p className="mt-3 text-slate-600">
-          QuoteRail does not ship a buyer-side agent. Connect OpenCode (or any Streamable HTTP MCP client) with the
-          demo bearer token configured out of band. Payment credentials are entered only on Razorpay.
-        </p>
-      </div>
-      <Card>
+    <main className="mx-auto max-w-3xl px-6 py-16">
+      <p className="text-sm uppercase tracking-[0.2em] text-[var(--muted)]">Corporate bookings</p>
+      <h1 className="mt-3 font-serif text-5xl leading-tight">Book Mosaic with the agent you already use.</h1>
+      <p className="mt-5 text-lg text-[var(--muted)]">
+        Send a brief. Mosaic returns packages with prices. You accept one and pay the deposit on Razorpay — card details
+        stay on Razorpay.
+      </p>
+
+      <Card className="mt-12">
         <CardHeader>
-          <CardTitle>MCP endpoint</CardTitle>
+          <CardTitle>Example brief</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-2 text-sm">
+        <CardContent className="space-y-3 text-sm text-[var(--muted)]">
           <p>
-            URL: <code className="rounded bg-slate-100 px-1">{mcpUrl}</code>
+            A 120-person Friday evening launch, under ₹2,20,000. Mosaic will offer a tighter Friday package, a Thursday
+            premium, and the exact ask if it runs over budget.
           </p>
-          <p>
-            Token placeholder: <code className="rounded bg-slate-100 px-1">QUOTERAIL_BUYER_TOKEN</code>
-          </p>
-          <p className="text-slate-500">The production page never renders the real bearer token.</p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>OpenCode remote MCP</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <pre className="overflow-auto rounded-md bg-slate-950 p-4 text-xs text-slate-100">{snippet}</pre>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Locked demo RFQ</CardTitle>
-        </CardHeader>
-        <CardContent>
           <CopyRfq text={rfq} />
+        </CardContent>
+      </Card>
+
+      <Card className="mt-8">
+        <CardHeader>
+          <CardTitle>Connect OpenCode</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3 text-sm">
+          <p className="text-[var(--muted)]">
+            Point your purchasing agent at Mosaic. Set <code className="rounded bg-[var(--background)] px-1">MOSAIC_BUYER_TOKEN</code>{' '}
+            to the token operations issued you.
+          </p>
+          <p>
+            Endpoint{' '}
+            <code className="rounded bg-[var(--background)] px-1 break-all">{mcpUrl}</code>
+          </p>
+          <pre className="overflow-auto rounded-xl bg-[#1c1914] p-4 text-xs text-amber-50">{snippet}</pre>
         </CardContent>
       </Card>
     </main>

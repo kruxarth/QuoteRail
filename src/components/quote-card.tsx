@@ -26,9 +26,16 @@ export function QuoteCard({
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="text-sm">
+        <CardTitle className="text-lg">
           <Link href={`/quote/${quote.id}`} className="hover:underline">
-            {quote.id.slice(0, 8)}
+            {quote.eventStartsAt.toLocaleString('en-IN', {
+              timeZone: 'Asia/Kolkata',
+              weekday: 'short',
+              day: 'numeric',
+              month: 'short',
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
           </Link>
         </CardTitle>
         <Badge
@@ -40,9 +47,7 @@ export function QuoteCard({
         </Badge>
       </CardHeader>
       <CardContent className="space-y-3 text-sm">
-        <p>
-          {quote.eventStartsAt.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} · {quote.attendeeCount} guests
-        </p>
+        <p>{quote.attendeeCount} guests</p>
         <ul className="space-y-1">
           {items.map((item) => (
             <li key={item.code} className="flex justify-between">

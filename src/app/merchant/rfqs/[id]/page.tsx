@@ -51,7 +51,7 @@ export default async function MerchantRfqPage({ params }: { params: Promise<{ id
       </Link>
       <div className="mt-3 flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
+          <h1 className="font-serif text-3xl tracking-tight">{title}</h1>
           <p className="mt-1 text-sm text-slate-500">
             {data.rfq.createdAt.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} · {data.rfq.id.slice(0, 8)}
           </p>

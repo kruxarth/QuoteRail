@@ -1,12 +1,18 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
-import { Geist, Geist_Mono } from 'next/font/google';
-import Link from 'next/link';
+import { Figtree, Geist_Mono, Instrument_Serif } from 'next/font/google';
+import { SiteFooter, SiteHeader } from '@/components/site-chrome';
 import './globals.css';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const body = Figtree({
+  variable: '--font-body',
   subsets: ['latin'],
+});
+
+const display = Instrument_Serif({
+  variable: '--font-display',
+  subsets: ['latin'],
+  weight: '400',
 });
 
 const geistMono = Geist_Mono({
@@ -15,30 +21,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'QuoteRail · Mosaic Events Bengaluru',
-  description: 'Policy-bounded venue quotes and Razorpay deposits for Mosaic Events.',
+  title: 'Mosaic Events · Bengaluru',
+  description: 'Grand Hall and Studio Hall in Indiranagar. Corporate launches, quoted in minutes, paid on Razorpay.',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">
-        <header className="border-b border-slate-200 bg-white">
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
-            <Link href="/" className="font-semibold tracking-tight text-[var(--brand)]">
-              Mosaic Events
-            </Link>
-            <nav className="flex gap-4 text-sm">
-              <Link href="/agent" className="hover:underline">
-                Shop with AI
-              </Link>
-              <Link href="/merchant" className="hover:underline">
-                Merchant console
-              </Link>
-            </nav>
-          </div>
-        </header>
+    <html lang="en" className={`${body.variable} ${display.variable} ${geistMono.variable} h-full antialiased`}>
+      <body className="flex min-h-full flex-col">
+        <SiteHeader />
         <div className="flex-1">{children}</div>
+        <SiteFooter />
       </body>
     </html>
   );

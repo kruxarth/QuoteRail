@@ -19,10 +19,10 @@ export function AvailabilityCalendar({
     <div className="grid gap-4 md:grid-cols-2">
       {halls.map((hall) => (
         <div key={hall.hall.code}>
-          <h3 className="mb-2 text-sm font-semibold">{hall.hall.name}</h3>
+          <h3 className="mb-3 font-serif text-2xl">{hall.hall.name}</h3>
           <div className="grid grid-cols-3 gap-2">
             {hall.slots.map((entry) => (
-              <div key={entry.slot.startsAt.toISOString()} className="rounded-md border border-slate-200 p-2 text-xs">
+              <div key={entry.slot.startsAt.toISOString()} className="rounded-lg border border-[var(--line)] bg-[var(--background)] p-2 text-xs">
                 <div className="text-slate-500">
                   {entry.slot.startsAt.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', weekday: 'short', hour: '2-digit', minute: '2-digit' })}
                 </div>
