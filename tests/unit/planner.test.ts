@@ -8,6 +8,7 @@ import { PUBLIC_MCP_TOOLS } from '@/server/mcp/tools';
 import { verifyBuyerBearer, buyerSubjectFromToken } from '@/server/mcp/auth';
 import { assertPaymentTransition } from '@/server/policy/transitions';
 import { DomainError } from '@/shared/result';
+import { createId, entityIdSchema } from '@/shared/ids';
 
 const clock = new FrozenClock(new Date(FROZEN_TEST_NOW));
 
@@ -100,6 +101,18 @@ describe('MCP contract', () => {
         }),
       ).ok,
     ).toBe(false);
+  });
+
+  it('emits RFC-variant UUIDs that Zod uuid() accepts', () => {
+    const uuid = z.string().uuid();
+    for (let i = 0; i < 20; i += 1) {
+      const id = createId();
+      expect(uuid.safeParse(id).success).toBe(true);
+      expect(id.slice(14, 15)).toBe('7');
+      expect(['8', '9', 'a', 'b']).toContain(id.slice(19, 20));
+    }
+    expect(entityIdSchema.safeParse('01a06184-68c0-7199-6187-e938323e0260').success).toBe(true);
+    expect(z.string().uuid().safeParse('01a06184-68c0-7199-6187-e938323e0260').success).toBe(false);
   });
 });
 

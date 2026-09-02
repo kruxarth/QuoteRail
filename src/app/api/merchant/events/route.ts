@@ -28,12 +28,12 @@ export async function GET(request: Request) {
   return NextResponse.json({
     events: filtered.map((row) => ({
       id: row.id,
-      created_at: row.createdAt.toISOString(),
-      event_type: row.eventType,
+      createdAt: row.createdAt.toISOString(),
+      eventType: row.eventType,
       summary: row.summary,
-      entity_type: row.entityType,
-      entity_id: row.entityId,
-      actor_type: row.actorType,
+      entityType: row.entityType,
+      entityId: row.entityId,
+      actorType: row.actorType,
       reason: row.reason,
     })),
   });

@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 /** RFC 9562 UUIDv7. Unix-ms timestamp in the high bits, version 7, RFC variant. */
 export function createId(): string {
   const bytes = new Uint8Array(16);
@@ -10,7 +12,7 @@ export function createId(): string {
   bytes[4] = Number((now >> 8n) & 0xffn);
   bytes[5] = Number(now & 0xffn);
   bytes[6] = (bytes[6] & 0x0f) | 0x70;
-  bytes[7] = (bytes[7] & 0x3f) | 0x80;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
   const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
   return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
 }
@@ -18,3 +20,8 @@ export function createId(): string {
 export function compactId(id: string): string {
   return id.replace(/-/g, '');
 }
+
+/** Accepts RFC UUIDs and already-persisted UUIDv7 rows whose variant nibble was wrong. */
+export const entityIdSchema = z
+  .string()
+  .regex(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i, 'Invalid id');

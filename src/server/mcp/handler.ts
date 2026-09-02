@@ -13,6 +13,7 @@ import { MERCHANT_ID } from '@/server/catalog/seed';
 import { demoDates } from '@/server/availability/slots';
 import { PUBLIC_MCP_TOOLS } from '@/server/mcp/tools';
 import { logEvent } from '@/server/log';
+import { entityIdSchema } from '@/shared/ids';
 
 const clock = new SystemClock();
 
@@ -144,7 +145,7 @@ export function createQuoteRailMcpHandler() {
           description: 'Answer clarification questions or retry a recoverable RFQ.',
           inputSchema: z
             .object({
-              rfq_id: z.string().uuid(),
+              rfq_id: entityIdSchema,
               answers: z.string().max(MAX_REQUEST_CHARS).default(''),
             })
             .strict(),
@@ -170,7 +171,7 @@ export function createQuoteRailMcpHandler() {
         {
           title: 'Get RFQ',
           description: 'Read back RFQ status, options, and payment summary. Does not change state.',
-          inputSchema: z.object({ rfq_id: z.string().uuid() }).strict(),
+          inputSchema: z.object({ rfq_id: entityIdSchema }).strict(),
           annotations: { readOnlyHint: true, openWorldHint: false },
         },
         async ({ rfq_id }) => {
@@ -190,7 +191,7 @@ export function createQuoteRailMcpHandler() {
           description: 'Request a revision or counteroffer. Cannot set a checkout amount.',
           inputSchema: z
             .object({
-              quote_id: z.string().uuid(),
+              quote_id: entityIdSchema,
               request: z.string().min(1).max(MAX_REQUEST_CHARS),
             })
             .strict(),
@@ -218,7 +219,7 @@ export function createQuoteRailMcpHandler() {
           description: 'Accept one offered quote and hold resources for 24 hours. Does not create a Payment Link.',
           inputSchema: z
             .object({
-              quote_id: z.string().uuid(),
+              quote_id: entityIdSchema,
               buyer_name: z.string().min(1).max(80),
               buyer_email: z.string().email().max(120).optional(),
               payment_term: z.enum(['deposit', 'full']),
@@ -252,7 +253,7 @@ export function createQuoteRailMcpHandler() {
           description: 'Create or reuse the Razorpay Payment Link for an accepted quote. No amount input.',
           inputSchema: z
             .object({
-              acceptance_id: z.string().uuid(),
+              acceptance_id: entityIdSchema,
               confirmed: z.literal(true),
             })
             .strict(),
@@ -280,8 +281,8 @@ export function createQuoteRailMcpHandler() {
           description: 'Read persisted payment status. Does not call Razorpay or mutate state.',
           inputSchema: z
             .object({
-              acceptance_id: z.string().uuid().optional(),
-              payment_link_id: z.string().uuid().optional(),
+              acceptance_id: entityIdSchema.optional(),
+              payment_link_id: entityIdSchema.optional(),
             })
             .strict(),
           annotations: { readOnlyHint: true, openWorldHint: false },
