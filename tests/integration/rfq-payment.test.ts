@@ -145,6 +145,54 @@ describe('rfq integration', () => {
     expect(['quoted', 'needs_clarification']).toContain(continued.status);
   });
 
+  it('revises planning when the first valid set is entirely over budget', async () => {
+    await resetDemo(db, clock);
+    const fake = new FakeModelAdapter();
+    let calls = 0;
+    const quoted = await requestQuote({
+      buyerSubject: buyer,
+      request: `We need a Bengaluru venue for a 120-person product launch on Friday, 2026-09-11, from 5 PM to 11 PM. We need theatre seating, a professional LED wall and PA, premium dinner with 30 Jain and 10 vegan meals, valet parking, and a branded stage. Keep the total under ₹2,20,000. We can pay a 40% deposit today.`,
+      clock,
+      adapter: {
+        extract: (input) => fake.extract(input),
+        plan: async (input) => {
+          calls += 1;
+          const full = await fake.plan(input);
+          if (calls === 1) {
+            const exact = full.candidates.find((candidate) => candidate.name.includes('Exact'));
+            if (!exact) throw new Error('expected exact candidate');
+            return {
+              cannot_proceed: false,
+              escalation_reason: '',
+              candidates: [
+                exact,
+                {
+                  ...exact,
+                  name: 'Thursday Grand premium over budget',
+                  event_date: '2026-09-10',
+                  hall_code: 'HALL-GRAND',
+                  services: exact.services.map((service) => ({ ...service })),
+                  relaxed_constraints: [
+                    { constraint: 'budget', reason: 'Keeps premium services over the stated budget.' },
+                    { constraint: 'date', reason: 'Moves to Thursday evening.' },
+                  ],
+                },
+              ],
+            };
+          }
+          expect(input.feedback ?? '').toMatch(/exceeded the buyer budget/i);
+          return full;
+        },
+      },
+    });
+    expect(calls).toBe(2);
+    expect(quoted.status).toBe('quoted');
+    const totals = quoted.options.map((option) => option.total_price);
+    expect(totals).toContain('19600000');
+    expect(totals).toContain('20300000');
+    expect(totals.some((total) => BigInt(total) <= 22_000_000n)).toBe(true);
+  });
+
   it('asks for clarification when the RFQ is incomplete', async () => {
     await resetDemo(db, clock);
     const result = await requestQuote({

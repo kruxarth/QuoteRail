@@ -21,7 +21,14 @@ import {
   SELLER_MODEL,
   SETUP_BUFFER_HOURS,
 } from '@/shared/constants';
-import { addMinutes, bufferedRange, resolveTimePreference, slotRange, type Clock } from '@/shared/clock';
+import {
+  addMinutes,
+  bufferedRange,
+  resolveTimePreference,
+  slotRange,
+  thursdayBefore,
+  type Clock,
+} from '@/shared/clock';
 import { DomainError } from '@/shared/result';
 import { looksLikeInjection, sanitizeRequestText } from '@/server/audit/redact';
 import { appendAudit } from '@/server/audit/service';
@@ -63,6 +70,58 @@ function remainingMs(deadline: number): number {
 function providerErrorDetail(error: unknown): string {
   if (error instanceof Error && error.message.trim()) return error.message.slice(0, 400);
   return 'unknown provider error';
+}
+
+function candidateKey(candidate: CandidatePlan): string {
+  const services = [...candidate.services]
+    .map((item) => `${item.code}:${item.quantity}`)
+    .sort()
+    .join(',');
+  return `${candidate.hall_code}|${candidate.event_date}|${candidate.start_time}|${candidate.attendee_count}|${services}`;
+}
+
+function meetsBuyerBudget(
+  valid: Array<{ priced: { totalPrice: bigint } }>,
+  budgetSubunits: number | null,
+): boolean {
+  if (!budgetSubunits) return true;
+  const budget = BigInt(budgetSubunits);
+  return valid.some((item) => item.priced.totalPrice <= budget);
+}
+
+function mergeValidCandidates<T extends { candidate: CandidatePlan }>(existing: T[], incoming: T[]): T[] {
+  const keys = new Set(existing.map((item) => candidateKey(item.candidate)));
+  const merged = [...existing];
+  for (const item of incoming) {
+    const key = candidateKey(item.candidate);
+    if (keys.has(key)) continue;
+    keys.add(key);
+    merged.push(item);
+  }
+  return merged;
+}
+
+function budgetCoverageFeedback(
+  requirements: ExtractedRequirements,
+  valid: Array<{ candidate: CandidatePlan }>,
+): string {
+  const packages = valid
+    .map(
+      (item) =>
+        `${item.candidate.name}: ${item.candidate.hall_code} on ${item.candidate.event_date} with ${item.candidate.services.map((s) => s.code).join(',')}`,
+    )
+    .join('; ');
+  const thursday = requirements.requested_date ? thursdayBefore(requirements.requested_date) : null;
+  return [
+    `Deterministic pricing exceeded the buyer budget of ${requirements.budget_subunits} paise for every candidate so far.`,
+    packages ? `Priced packages: ${packages}` : 'No priced packages yet.',
+    'Add the missing trade-offs. Do not include price, cost, margin, deposit, or total fields.',
+    `1. Same date ${requirements.requested_date ?? '(requested date)'}, HALL-GRAND, AV-STANDARD, DINNER-STANDARD, STAGE-BRANDED, EVENT-OPS, no VALET-CREW.`,
+    thursday
+      ? `2. Date ${thursday} evening, HALL-STUDIO, AV-PRO, DINNER-PREMIUM, VALET-CREW, STAGE-BRANDED, EVENT-OPS.`
+      : '2. Nearby weekday, HALL-STUDIO, keep AV-PRO, DINNER-PREMIUM, VALET-CREW, STAGE-BRANDED, EVENT-OPS.',
+    '3. You may keep one exact-spec candidate that declares a budget relaxation.',
+  ].join('\n');
 }
 
 async function loadOfferings(database: Database): Promise<PricingOffering[]> {
@@ -130,8 +189,8 @@ function rankQuotes(
   const score = (item: (typeof options)[number]) => {
     let value = 0;
     const codes = new Set([item.candidate.hall_code, ...item.candidate.services.map((s) => s.code)]);
-    if (priorities.includes('budget') && requirements.budget_subunits) {
-      if (item.pricedTotal <= BigInt(requirements.budget_subunits)) value += 8;
+    if (requirements.budget_subunits && item.pricedTotal <= BigInt(requirements.budget_subunits)) {
+      value += 8;
     }
     if (priorities.includes('date') && item.candidate.event_date === requirements.requested_date) value += 6;
     if (priorities.includes('headcount') && item.candidate.attendee_count === requirements.attendee_count) {
@@ -502,10 +561,12 @@ export async function runPlanner(params: {
         requirements,
         now,
       });
-      valid = checked.valid;
+      valid = mergeValidCandidates(valid, checked.valid);
       lastFailures = checked.failures;
-      if (valid.length >= 2) break;
-      feedback = `Validation failures:\n${checked.failures.join('\n')}`;
+      if (valid.length >= 2 && meetsBuyerBudget(valid, requirements.budget_subunits)) break;
+      feedback = meetsBuyerBudget(valid, requirements.budget_subunits)
+        ? `Validation failures:\n${checked.failures.join('\n')}`
+        : budgetCoverageFeedback(requirements, valid);
     }
   } catch (error) {
     const deadlineHit = Date.now() >= deadline || (error instanceof Error && /timeout|abort/i.test(error.message));
