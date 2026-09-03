@@ -14,18 +14,20 @@ async function handle(request: Request) {
   if (!allowed) {
     return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401 });
   }
+  const hasBearer = Boolean(request.headers.get('authorization') ?? request.headers.get('Authorization'));
   const auth = verifyBuyerBearer(request);
-  if (!auth.ok) {
+  if (hasBearer && !auth.ok) {
     await recordAttempt('mcp', forwarded, false);
     return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401 });
   }
-  await recordAttempt('mcp', forwarded, true);
+  if (auth.ok) await recordAttempt('mcp', forwarded, true);
+  const subject = auth.ok ? auth.subject : '';
   return handler.fetch(request, {
     authInfo: {
-      token: auth.token,
-      clientId: auth.subject,
+      token: auth.ok ? auth.token : '',
+      clientId: subject || 'buyer:anonymous',
       scopes: ['buyer'],
-      extra: { subject: auth.subject },
+      extra: { subject, anonymous: !auth.ok },
     },
   });
 }

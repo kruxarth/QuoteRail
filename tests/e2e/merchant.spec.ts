@@ -19,8 +19,9 @@ test('public quote page is read-only and hides merchant cost', async ({ page }) 
   await expect(page.getByRole('button', { name: /accept|checkout|pay/i })).toHaveCount(0);
 });
 
-test('agent page shows OpenCode snippet and copyable brief', async ({ page }) => {
+test('agent page shows enquire URL and copyable brief', async ({ page }) => {
   await page.goto('/agent');
-  await expect(page.getByText('Connect OpenCode')).toBeVisible();
+  await expect(page.getByText('No token')).toBeVisible();
+  await expect(page.getByText('/api/enquire')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Copy brief' })).toBeVisible();
 });

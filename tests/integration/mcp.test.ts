@@ -6,7 +6,7 @@ describe('MCP HTTP', () => {
   it('rejects unauthorized and non-buyer credentials', async () => {
     const url = 'http://localhost:3000/api/mcp';
     const missing = await mcpHandle(new Request(url, { method: 'POST', body: '{}' }));
-    expect(missing.status).toBe(401);
+    expect(missing.status).not.toBe(401);
     const adminAsBearer = await mcpHandle(
       new Request(url, {
         method: 'POST',

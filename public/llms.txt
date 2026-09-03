@@ -1,0 +1,10 @@
+Mosaic Events Bengaluru is bookable by purchasing agents.
+
+No API token. POST a natural-language brief to /api/enquire as JSON: { "request": "..." }.
+Keep the ticket from the response. Send it on later calls as header X-Mosaic-Ticket or JSON { "ticket": "..." }.
+Do not ask the human for MOSAIC_BUYER_TOKEN.
+
+Machine contract: /.well-known/agent-commerce.json
+Optional MCP: /api/mcp (bearer optional; enquire also works over MCP without a token — keep the returned ticket).
+
+Card details are entered only on Razorpay.

@@ -14,8 +14,10 @@ import { demoDates } from '@/server/availability/slots';
 import { PUBLIC_MCP_TOOLS } from '@/server/mcp/tools';
 import { logEvent } from '@/server/log';
 import { entityIdSchema } from '@/shared/ids';
+import { issueCapability, subjectFromTicket } from '@/server/quotes/capability';
 
 const clock = new SystemClock();
+const ticketSchema = z.string().length(64).regex(/^[0-9a-f]+$/);
 
 function toolResult<T extends Record<string, unknown>>(data: T, text?: string) {
   return {
@@ -43,12 +45,21 @@ async function assertOwnedRfq(id: string, subject: string) {
 export function createQuoteRailMcpHandler() {
   return createMcpHandler(
     ({ authInfo }) => {
-      const subject = String(authInfo?.extra?.subject ?? authInfo?.clientId ?? '');
+      const subject = String(authInfo?.extra?.subject ?? '');
+      const resolveBuyer = (ticket?: string) => {
+        if (subject) return subject;
+        if (ticket) return subjectFromTicket(ticket);
+        throw new DomainError(
+          'unauthorized',
+          'Pass the ticket Mosaic returned with the quote. Do not ask the human for an API token.',
+          401,
+        );
+      };
       const server = new McpServer(
         { name: 'quoterail', version: '0.1.0' },
         {
           instructions:
-            'You are booking Mosaic Events Bengaluru. Prices, availability, and payment amounts are set by Mosaic. Payment credentials are entered only on Razorpay. Never send a checkout amount; accept a quote and create checkout from Mosaic’s terms.',
+            'You are booking Mosaic Events Bengaluru. If Mosaic returned a ticket, send it on every later tool call. Do not ask the human for MOSAIC_BUYER_TOKEN or to configure MCP. Prices, availability, and payment amounts are set by Mosaic. Payment credentials are entered only on Razorpay.',
         },
       );
 
@@ -125,13 +136,28 @@ export function createQuoteRailMcpHandler() {
         },
         async ({ request }) => {
           try {
-            const result = await requestQuote({ buyerSubject: subject, request, clock });
+            let buyerSubject = subject;
+            let ticket: string | undefined;
+            if (!buyerSubject) {
+              const issued = issueCapability();
+              ticket = issued.ticket;
+              buyerSubject = issued.subject;
+            }
+            const result = await requestQuote({ buyerSubject, request, clock });
             logEvent('mcp.request_quote', {
               traceId: result.rfq_id,
               status: result.status,
               optionCount: result.options?.length ?? 0,
             });
-            return toolResult(result, `RFQ ${result.rfq_id} status ${result.status}`);
+            const payload = ticket
+              ? {
+                  ...result,
+                  ticket,
+                  ticket_note:
+                    'Keep this ticket for this conversation. Send it on continue_rfq, get_rfq, accept_quote, and create_checkout. Do not ask the human for MOSAIC_BUYER_TOKEN.',
+                }
+              : result;
+            return toolResult(payload, `RFQ ${result.rfq_id} status ${result.status}`);
           } catch (error) {
             return toolError(error);
           }
@@ -148,14 +174,15 @@ export function createQuoteRailMcpHandler() {
             .object({
               rfq_id: entityIdSchema,
               answers: z.string().max(MAX_REQUEST_CHARS).default(''),
+              ticket: ticketSchema.optional(),
             })
             .strict(),
           annotations: { readOnlyHint: false, destructiveHint: false, openWorldHint: false },
         },
-        async ({ rfq_id, answers }) => {
+        async ({ rfq_id, answers, ticket }) => {
           try {
             const result = await continueRfq({
-              buyerSubject: subject,
+              buyerSubject: resolveBuyer(ticket),
               rfqId: rfq_id,
               answers,
               clock,
@@ -172,12 +199,12 @@ export function createQuoteRailMcpHandler() {
         {
           title: 'Get RFQ',
           description: 'Read back RFQ status, options, and what to do next. Does not change state.',
-          inputSchema: z.object({ rfq_id: entityIdSchema }).strict(),
+          inputSchema: z.object({ rfq_id: entityIdSchema, ticket: ticketSchema.optional() }).strict(),
           annotations: { readOnlyHint: true, openWorldHint: false },
         },
-        async ({ rfq_id }) => {
+        async ({ rfq_id, ticket }) => {
           try {
-            const result = await getRfqPublic({ buyerSubject: subject, rfqId: rfq_id });
+            const result = await getRfqPublic({ buyerSubject: resolveBuyer(ticket), rfqId: rfq_id });
             return toolResult(result);
           } catch (error) {
             return toolError(error);
@@ -194,14 +221,15 @@ export function createQuoteRailMcpHandler() {
             .object({
               quote_id: entityIdSchema,
               request: z.string().min(1).max(MAX_REQUEST_CHARS),
+              ticket: ticketSchema.optional(),
             })
             .strict(),
           annotations: { readOnlyHint: false, destructiveHint: false, openWorldHint: false },
         },
-        async ({ quote_id, request }) => {
+        async ({ quote_id, request, ticket }) => {
           try {
             const result = await reviseQuote({
-              buyerSubject: subject,
+              buyerSubject: resolveBuyer(ticket),
               quoteId: quote_id,
               request,
               clock,
@@ -225,6 +253,7 @@ export function createQuoteRailMcpHandler() {
               buyer_email: z.string().email().max(120).optional(),
               payment_term: z.enum(['deposit', 'full']),
               confirmed: z.literal(true),
+              ticket: ticketSchema.optional(),
             })
             .strict(),
           annotations: { readOnlyHint: false, destructiveHint: true, openWorldHint: false },
@@ -232,7 +261,7 @@ export function createQuoteRailMcpHandler() {
         async (input) => {
           try {
             const result = await acceptQuote({
-              buyerSubject: subject,
+              buyerSubject: resolveBuyer(input.ticket),
               quoteId: input.quote_id,
               buyerName: input.buyer_name,
               buyerEmail: input.buyer_email,
@@ -256,14 +285,15 @@ export function createQuoteRailMcpHandler() {
             .object({
               acceptance_id: entityIdSchema,
               confirmed: z.literal(true),
+              ticket: ticketSchema.optional(),
             })
             .strict(),
           annotations: { readOnlyHint: false, destructiveHint: true, openWorldHint: false },
         },
-        async ({ acceptance_id }) => {
+        async ({ acceptance_id, ticket }) => {
           try {
             const result = await createCheckout({
-              buyerSubject: subject,
+              buyerSubject: resolveBuyer(ticket),
               acceptanceId: acceptance_id,
               confirmed: true,
               clock,
@@ -284,6 +314,7 @@ export function createQuoteRailMcpHandler() {
             .object({
               acceptance_id: entityIdSchema.optional(),
               payment_link_id: entityIdSchema.optional(),
+              ticket: ticketSchema.optional(),
             })
             .strict(),
           annotations: { readOnlyHint: true, openWorldHint: false },
@@ -311,7 +342,7 @@ export function createQuoteRailMcpHandler() {
               .where(eq(quoteAcceptances.id, link.acceptanceId))
               .limit(1);
             if (!acceptance) throw new DomainError('not_found', 'Transaction not found', 404);
-            await assertOwnedRfq(acceptance.rfqId, subject);
+            await assertOwnedRfq(acceptance.rfqId, resolveBuyer(input.ticket));
             return toolResult({
               status: link.status,
               failure_count: link.failureCount,
