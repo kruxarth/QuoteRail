@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { AvailabilityCalendar } from '@/components/availability-calendar';
 import { demoResetEnabled, getEnv } from '@/env';
 import { DemoReset } from '@/app/merchant/demo-reset';
+import { MerchantSignOut } from '@/app/merchant/sign-out';
 import { enquiryDecision, enquiryHeadline, rfqStatusCopy } from '@/server/quotes/rfq-story';
 
 export default async function MerchantDashboardPage() {
@@ -27,7 +28,10 @@ export default async function MerchantDashboardPage() {
           <p className="kicker text-[var(--accent)]">Indiranagar floor</p>
           <h1 className="mt-3 font-serif text-4xl">Operations</h1>
         </div>
-        {demoResetEnabled(getEnv()) ? <DemoReset /> : null}
+        <div className="flex flex-wrap items-center gap-3">
+          {demoResetEnabled(getEnv()) ? <DemoReset /> : null}
+          <MerchantSignOut />
+        </div>
       </div>
 
       <dl className="mt-8 grid grid-cols-2 border border-[var(--line)] sm:grid-cols-4">

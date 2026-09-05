@@ -21,13 +21,21 @@ export function verifySession(token: string | undefined, secret: string): boolea
   return timingSafeEqual(a, b);
 }
 
+function cookieFlags(): string {
+  const secure = getEnv().NODE_ENV === 'production' ? '; Secure' : '';
+  return `Path=/; HttpOnly; SameSite=Lax${secure}`;
+}
+
 export function createMerchantCookie(): string {
   const env = getEnv();
   const exp = Date.now() + 24 * 60 * 60 * 1000;
   const payload = Buffer.from(JSON.stringify({ sub: 'merchant-admin', exp })).toString('base64url');
   const token = signSession(payload, env.SESSION_SIGNING_SECRET);
-  const secure = env.NODE_ENV === 'production' ? '; Secure' : '';
-  return `${COOKIE}=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=86400${secure}`;
+  return `${COOKIE}=${token}; ${cookieFlags()}; Max-Age=86400`;
+}
+
+export function clearMerchantCookie(): string {
+  return `${COOKIE}=; ${cookieFlags()}; Max-Age=0`;
 }
 
 export function readMerchantCookie(cookieHeader: string | null): string | undefined {

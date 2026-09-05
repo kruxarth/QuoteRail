@@ -9,6 +9,7 @@ import { PolicyVerdict } from '@/components/policy-verdict';
 import { TransactionStatus } from '@/components/transaction-status';
 import { LiveAudit } from '@/app/merchant/rfqs/[id]/live-audit';
 import { ApprovalButton } from '@/app/merchant/rfqs/[id]/approval-button';
+import { MerchantSignOut } from '@/app/merchant/sign-out';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { demoDates } from '@/server/availability/slots';
@@ -46,9 +47,12 @@ export default async function MerchantRfqPage({ params }: { params: Promise<{ id
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-8">
-      <Link href="/merchant" className="text-sm text-slate-600 hover:underline">
-        ← All enquiries
-      </Link>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <Link href="/merchant" className="text-sm text-slate-600 hover:underline">
+          ← All enquiries
+        </Link>
+        <MerchantSignOut />
+      </div>
       <div className="mt-3 flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
           <h1 className="font-serif text-3xl font-normal tracking-tight">{title}</h1>

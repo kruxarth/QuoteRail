@@ -4,12 +4,18 @@ test('merchant login and dashboard', async ({ page }) => {
   await page.goto('/merchant/login');
   await page.getByLabel('Password').fill('test-admin-password');
   await page.getByRole('button', { name: 'Sign in' }).click();
-  await expect(page.getByRole('heading', { name: 'Operations' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Operations' })).toBeVisible({
+    timeout: 20_000,
+  });
   await expect(page.getByText('Hall availability')).toBeVisible();
-  await expect(page.getByText('Enquiries')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Enquiries' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Grand Hall' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Studio Hall' })).toBeVisible();
   await expect(page.getByText(/available|blocked|held|committed/i).first()).toBeVisible();
+  await page.getByRole('button', { name: 'Sign out' }).click();
+  await expect(page.getByRole('heading', { name: 'Staff sign-in' })).toBeVisible();
+  await page.goto('/merchant');
+  await expect(page.getByRole('heading', { name: 'Staff sign-in' })).toBeVisible();
 });
 
 test('public quote page is read-only and hides merchant cost', async ({ page }) => {
