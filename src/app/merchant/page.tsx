@@ -51,7 +51,8 @@ export default async function MerchantDashboardPage() {
       <section className="mt-12">
         <h2 className="font-serif text-3xl">Hall availability</h2>
         <p className="mt-2 text-sm text-[var(--muted)]">
-          Two weeks of mornings, afternoons, and evenings. Held means a quote is waiting on deposit.
+          Two weeks of mornings, afternoons, and evenings. Held is a quote waiting on deposit.
+          Pink on Studio Friday evening is a standing house hold — Reset puts that one back.
         </p>
         <div className="mt-6">
           <AvailabilityCalendar halls={halls} />

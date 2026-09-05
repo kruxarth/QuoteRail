@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { FrozenClock, nextFridayAfter, thursdayBefore, istDateString, rangesOverlap, bufferedRange, istDateTime } from '@/shared/clock';
-import { demoDates } from '@/server/availability/slots';
+import { demoDates, isStudioFridayEveningBlock } from '@/server/availability/slots';
 import { FROZEN_DEMO_FRIDAY, FROZEN_DEMO_THURSDAY, FROZEN_TEST_NOW } from '@/shared/constants';
 
 describe('clock', () => {
@@ -36,5 +36,11 @@ describe('clock', () => {
         evening.bufferEndsAt,
       ),
     ).toBe(true);
+  });
+
+  it('marks the demo Friday evening as the Studio house hold', () => {
+    expect(isStudioFridayEveningBlock(FROZEN_DEMO_FRIDAY, 'evening', FROZEN_DEMO_FRIDAY)).toBe(true);
+    expect(isStudioFridayEveningBlock(FROZEN_DEMO_FRIDAY, 'morning', FROZEN_DEMO_FRIDAY)).toBe(false);
+    expect(isStudioFridayEveningBlock(FROZEN_DEMO_THURSDAY, 'evening', FROZEN_DEMO_FRIDAY)).toBe(false);
   });
 });

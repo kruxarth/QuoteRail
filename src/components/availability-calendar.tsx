@@ -20,7 +20,7 @@ const STATE_CLASS: Record<SlotState, string> = {
 
 type HallCalendar = {
   hall: { name: string; code: string };
-  slots: Array<{ state: SlotState; slot: { startsAt: Date } }>;
+  slots: Array<{ state: SlotState; reason?: string | null; slot: { startsAt: Date } }>;
 };
 
 function windowOf(startsAt: Date): SlotWindow {
@@ -47,11 +47,15 @@ function dayLabel(isoDate: string): { weekday: string; day: string } {
 }
 
 function lookup(hall: HallCalendar) {
-  const map = new Map<string, { state: SlotState; startsAt: Date }>();
+  const map = new Map<string, { state: SlotState; reason?: string | null; startsAt: Date }>();
   for (const entry of hall.slots) {
     const date = istDateString(entry.slot.startsAt);
     const window = windowOf(entry.slot.startsAt);
-    map.set(`${date}:${window}`, { state: entry.state, startsAt: entry.slot.startsAt });
+    map.set(`${date}:${window}`, {
+      state: entry.state,
+      reason: entry.reason,
+      startsAt: entry.slot.startsAt,
+    });
   }
   return map;
 }
@@ -145,7 +149,9 @@ export function AvailabilityCalendar({ halls }: { halls: HallCalendar[] }) {
                           return (
                             <span
                               key={window}
-                              title={`${hall.hall.name} · ${date} · ${window} · ${hit.state}`}
+                              title={[hall.hall.name, date, window, hit.state, hit.reason]
+                                .filter(Boolean)
+                                .join(' · ')}
                               className={cn(
                                 'flex h-9 items-center justify-center text-[10px] tracking-wide',
                                 STATE_CLASS[hit.state],

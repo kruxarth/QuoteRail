@@ -168,7 +168,7 @@ export async function hallCalendar(now = new Date()) {
               : slot.blockedUnits > 0
                 ? ('blocked' as const)
                 : ('available' as const);
-          return { slot, state };
+          return { slot, state, reason: slot.blockReason };
         })
         .sort((a, b) => a.slot.startsAt.getTime() - b.slot.startsAt.getTime())
         .slice(0, 42),
