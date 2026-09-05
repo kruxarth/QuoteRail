@@ -59,6 +59,9 @@ importers:
       tailwind-merge:
         specifier: ^3.6.0
         version: 3.6.0
+      usewebmcp:
+        specifier: ^5.1.0
+        version: 5.1.0(react@19.2.8)
       zod:
         specifier: ^4.5.4
         version: 4.5.4
@@ -1075,6 +1078,14 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@mcp-b/webmcp-polyfill@5.1.0':
+    resolution: {integrity: sha512-KL09hniFssPY8HBO3qzurWPqm+1JYRwV3wx6x2XSySgo+6BL1XHGsHGIoAO7U9zzigv7TA5keNBoZ+3P1jq18g==}
+    engines: {node: '>=20'}
+
+  '@mcp-b/webmcp-types@5.1.0':
+    resolution: {integrity: sha512-twOKDUr7al60K890HvRcNvoHSfQ2rnGeKJiQs6eUr+Leg+LQ6K+yz3F4K70jykMK1a09ZIgYb3Oc7mAypuKPig==}
+    engines: {node: '>=20'}
 
   '@modelcontextprotocol/client@2.0.0':
     resolution: {integrity: sha512-8f1OghQ2rjzIOfqgUCP+8GiUWqRs89njoWLNqAe8kWmDePv3s1fZXseej+QXemssEuuOvLLmLO/kqM3IQHtISw==}
@@ -3451,6 +3462,12 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
+  usewebmcp@5.1.0:
+    resolution: {integrity: sha512-iyp0v9f3HmWmfXVzvQt3IG4/DNlrjXd0DWXKzc692KSveVaSO8en5aanQlLYACEU9AS1BLAobQi17A4+rRKLzg==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0
+
   vite-tsconfig-paths@6.1.1:
     resolution: {integrity: sha512-2cihq7zliibCCZ8P9cKJrQBkfgdvcFkOOc3Y02o3GWUDLgqjWsZudaoiuOwO/gzTzy17cS5F7ZPo4bsnS4DGkg==}
     peerDependencies:
@@ -4247,6 +4264,15 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
+
+  '@mcp-b/webmcp-polyfill@5.1.0':
+    dependencies:
+      '@mcp-b/webmcp-types': 5.1.0
+      '@standard-schema/spec': 1.1.0
+
+  '@mcp-b/webmcp-types@5.1.0':
+    dependencies:
+      '@modelcontextprotocol/server': 2.0.0
 
   '@modelcontextprotocol/client@2.0.0':
     dependencies:
@@ -6652,6 +6678,12 @@ snapshots:
 
   use-sync-external-store@1.6.0(react@19.2.8):
     dependencies:
+      react: 19.2.8
+
+  usewebmcp@5.1.0(react@19.2.8):
+    dependencies:
+      '@mcp-b/webmcp-polyfill': 5.1.0
+      '@mcp-b/webmcp-types': 5.1.0
       react: 19.2.8
 
   vite-tsconfig-paths@6.1.1(supports-color@7.2.0)(typescript@5.9.3)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)):

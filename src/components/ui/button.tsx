@@ -9,8 +9,8 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: 'bg-[var(--brand)] text-white hover:bg-[var(--brand-dark)]',
-        secondary: 'bg-slate-100 text-slate-900 hover:bg-slate-200',
-        outline: 'border border-slate-300 bg-white hover:bg-slate-50',
+        secondary: 'bg-[var(--parchment-warm)] text-[var(--foreground)] hover:bg-[var(--line)]',
+        outline: 'border border-[var(--line)] bg-transparent hover:bg-[var(--parchment-warm)]',
         ghost: 'hover:bg-slate-100',
         danger: 'bg-red-700 text-white hover:bg-red-800',
       },

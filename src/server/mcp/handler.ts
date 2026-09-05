@@ -1,23 +1,22 @@
 import { z } from 'zod';
 import { createMcpHandler, McpServer } from '@modelcontextprotocol/server';
-import { eq } from 'drizzle-orm';
-import { db } from '@/db/client';
-import { merchants, offerings, paymentLinks, quoteAcceptances, quotes, rfqs } from '@/db/schema';
-import { MERCHANT_NAME, MAX_REQUEST_CHARS, MAX_PAYMENT_FAILURES } from '@/shared/constants';
+import { MAX_REQUEST_CHARS } from '@/shared/constants';
 import { SystemClock } from '@/shared/clock';
 import { DomainError } from '@/shared/result';
 import { requestQuote, continueRfq, getRfqPublic, reviseQuote } from '@/server/quotes/rfq-service';
 import { acceptQuote } from '@/server/quotes/accept';
 import { createCheckout } from '@/server/payments/service';
-import { MERCHANT_ID } from '@/server/catalog/seed';
-import { demoDates } from '@/server/availability/slots';
-import { PUBLIC_MCP_TOOLS } from '@/server/mcp/tools';
 import { logEvent } from '@/server/log';
 import { entityIdSchema } from '@/shared/ids';
 import { issueCapability, subjectFromTicket } from '@/server/quotes/capability';
+import { merchantProfilePublic, searchVenueServices } from '@/server/quotes/venue-catalog';
+import { readPaymentStatus } from '@/server/quotes/payment-status';
 
 const clock = new SystemClock();
-const ticketSchema = z.string().length(64).regex(/^[0-9a-f]+$/);
+const ticketSchema = z
+  .string()
+  .length(64)
+  .regex(/^[0-9a-f]+$/);
 
 function toolResult<T extends Record<string, unknown>>(data: T, text?: string) {
   return {
@@ -34,12 +33,6 @@ function toolError(error: unknown) {
     content: [{ type: 'text' as const, text: JSON.stringify({ error: code, message }) }],
     structuredContent: { error: code, message },
   };
-}
-
-async function assertOwnedRfq(id: string, subject: string) {
-  const [rfq] = await db.select().from(rfqs).where(eq(rfqs.id, id)).limit(1);
-  if (!rfq || rfq.buyerSubject !== subject) throw new DomainError('not_found', 'RFQ not found', 404);
-  return rfq;
 }
 
 export function createQuoteRailMcpHandler() {
@@ -72,18 +65,7 @@ export function createQuoteRailMcpHandler() {
           annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
         },
         async () => {
-          const dates = demoDates(clock);
-          return toolResult({
-            name: MERCHANT_NAME,
-            city: 'Bengaluru',
-            currency: 'INR',
-            quote_validity_minutes: 60,
-            payment_terms: ['deposit', 'full'],
-            deposit: '40% of the accepted full quote total',
-            halls: ['Grand Hall (180)', 'Studio Hall (120)'],
-            services: ['AV', 'catering', 'valet', 'branded stage', 'event operations'],
-            demo_friday: dates.friday,
-          });
+          return toolResult(merchantProfilePublic(clock));
         },
       );
 
@@ -91,38 +73,22 @@ export function createQuoteRailMcpHandler() {
         'search_venue_services',
         {
           title: 'Search venue services',
-          description: 'Search public halls and services. Availability is advisory until acceptance.',
+          description:
+            'Search public halls and services. Availability is advisory until acceptance.',
           inputSchema: z.object({
             query: z.string().max(120).optional(),
             categories: z.array(z.string()).max(8).optional(),
             capabilities: z.array(z.string()).max(12).optional(),
             attendee_count: z.number().int().positive().optional(),
-            requested_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+            requested_date: z
+              .string()
+              .regex(/^\d{4}-\d{2}-\d{2}$/)
+              .optional(),
           }),
           annotations: { readOnlyHint: true, openWorldHint: false },
         },
         async (input) => {
-          const rows = await db.select().from(offerings).where(eq(offerings.merchantId, MERCHANT_ID));
-          const filtered = rows.filter((row) => {
-            if (input.categories?.length && !input.categories.includes(row.category)) return false;
-            if (input.query && !`${row.name} ${row.description}`.toLowerCase().includes(input.query.toLowerCase())) {
-              return false;
-            }
-            if (input.attendee_count && row.category === 'hall' && (row.capacityUnits ?? 0) < input.attendee_count) {
-              return false;
-            }
-            return true;
-          });
-          return toolResult({
-            services: filtered.map((row) => ({
-              code: row.code,
-              name: row.name,
-              category: row.category,
-              capabilities: row.capabilities,
-              capacity_label: row.capacityLabel,
-            })),
-            availability_note: 'Date availability is advisory until atomic acceptance.',
-          });
+          return toolResult(await searchVenueServices(input));
         },
       );
 
@@ -199,12 +165,17 @@ export function createQuoteRailMcpHandler() {
         {
           title: 'Get RFQ',
           description: 'Read back RFQ status, options, and what to do next. Does not change state.',
-          inputSchema: z.object({ rfq_id: entityIdSchema, ticket: ticketSchema.optional() }).strict(),
+          inputSchema: z
+            .object({ rfq_id: entityIdSchema, ticket: ticketSchema.optional() })
+            .strict(),
           annotations: { readOnlyHint: true, openWorldHint: false },
         },
         async ({ rfq_id, ticket }) => {
           try {
-            const result = await getRfqPublic({ buyerSubject: resolveBuyer(ticket), rfqId: rfq_id });
+            const result = await getRfqPublic({
+              buyerSubject: resolveBuyer(ticket),
+              rfqId: rfq_id,
+            });
             return toolResult(result);
           } catch (error) {
             return toolError(error);
@@ -245,7 +216,8 @@ export function createQuoteRailMcpHandler() {
         'accept_quote',
         {
           title: 'Accept a quote',
-          description: 'Accept one offered quote and hold resources for 24 hours. Does not create a Payment Link.',
+          description:
+            'Accept one offered quote and hold resources for 24 hours. Does not create a Payment Link.',
           inputSchema: z
             .object({
               quote_id: entityIdSchema,
@@ -280,7 +252,8 @@ export function createQuoteRailMcpHandler() {
         'create_checkout',
         {
           title: 'Create checkout',
-          description: 'Create or reuse the Razorpay Payment Link for an accepted quote. No amount input.',
+          description:
+            'Create or reuse the Razorpay Payment Link for an accepted quote. No amount input.',
           inputSchema: z
             .object({
               acceptance_id: entityIdSchema,
@@ -321,45 +294,19 @@ export function createQuoteRailMcpHandler() {
         },
         async (input) => {
           try {
-            let link;
-            if (input.payment_link_id) {
-              [link] = await db
-                .select()
-                .from(paymentLinks)
-                .where(eq(paymentLinks.id, input.payment_link_id))
-                .limit(1);
-            } else if (input.acceptance_id) {
-              [link] = await db
-                .select()
-                .from(paymentLinks)
-                .where(eq(paymentLinks.acceptanceId, input.acceptance_id))
-                .limit(1);
-            }
-            if (!link) throw new DomainError('not_found', 'Transaction not found', 404);
-            const [acceptance] = await db
-              .select()
-              .from(quoteAcceptances)
-              .where(eq(quoteAcceptances.id, link.acceptanceId))
-              .limit(1);
-            if (!acceptance) throw new DomainError('not_found', 'Transaction not found', 404);
-            await assertOwnedRfq(acceptance.rfqId, resolveBuyer(input.ticket));
-            return toolResult({
-              status: link.status,
-              failure_count: link.failureCount,
-              retry_eligible: link.status === 'issued' && link.failureCount <= MAX_PAYMENT_FAILURES,
-              amount: link.amount.toString(),
-              currency: link.currency,
-              updated_at: link.updatedAt.toISOString(),
-            });
+            return toolResult(
+              await readPaymentStatus({
+                buyerSubject: resolveBuyer(input.ticket),
+                acceptanceId: input.acceptance_id,
+                paymentLinkId: input.payment_link_id,
+              }),
+            );
           } catch (error) {
             return toolError(error);
           }
         },
       );
 
-      void merchants;
-      void quotes;
-      void PUBLIC_MCP_TOOLS;
       return server;
     },
     { responseMode: 'json' },

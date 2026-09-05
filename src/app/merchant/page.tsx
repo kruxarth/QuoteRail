@@ -4,95 +4,123 @@ import { redirect } from 'next/navigation';
 import { isMerchantAuthenticated } from '@/server/auth/session';
 import { hallCalendar, merchantDashboard } from '@/server/quotes/merchant-queries';
 import { formatInr } from '@/shared/money';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { AvailabilityCalendar } from '@/components/availability-calendar';
-import { AuditTimeline } from '@/components/audit-timeline';
 import { demoResetEnabled, getEnv } from '@/env';
 import { DemoReset } from '@/app/merchant/demo-reset';
-import { enquiryHeadline, rfqStatusCopy } from '@/server/quotes/rfq-story';
+import { enquiryDecision, enquiryHeadline, rfqStatusCopy } from '@/server/quotes/rfq-story';
 
 export default async function MerchantDashboardPage() {
   const jar = await cookies();
-  const header = jar.getAll().map((c) => `${c.name}=${c.value}`).join('; ');
+  const header = jar
+    .getAll()
+    .map((c) => `${c.name}=${c.value}`)
+    .join('; ');
   if (!isMerchantAuthenticated(header)) redirect('/merchant/login');
   const data = await merchantDashboard();
   const halls = await hallCalendar();
+
   return (
-    <main className="mx-auto max-w-6xl space-y-8 px-6 py-8">
-      <div className="flex items-center justify-between">
-        <h1 className="font-serif text-3xl font-normal">Operations</h1>
+    <main className="mx-auto max-w-[1400px] px-6 py-10 md:px-10">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="kicker text-[var(--accent)]">Indiranagar floor</p>
+          <h1 className="mt-3 font-serif text-4xl">Operations</h1>
+        </div>
         {demoResetEnabled(getEnv()) ? <DemoReset /> : null}
       </div>
-      <div className="grid gap-4 md:grid-cols-5">
+
+      <dl className="mt-8 grid grid-cols-2 border border-[var(--line)] sm:grid-cols-4">
         {[
-          ['Active enquiries', String(data.kpis.activeEnquiries)],
-          ['Quoted value', formatInr(data.kpis.quotedValue)],
-          ['Slots on hold', String(data.kpis.heldBookingUnits)],
-          ['Deposits paid', formatInr(data.kpis.depositsPaid)],
-          ['Stopped by policy', String(data.kpis.blockedUnsafe)],
-        ].map(([label, value]) => (
-          <Card key={label}>
-            <CardHeader>
-              <CardTitle className="text-xs uppercase text-slate-500">{label}</CardTitle>
-            </CardHeader>
-            <CardContent className="text-xl font-semibold">{value}</CardContent>
-          </Card>
+          ['Open', String(data.kpis.activeEnquiries)],
+          ['Quoted', formatInr(data.kpis.quotedValue)],
+          ['Slots held', String(data.kpis.heldBookingUnits)],
+          ['Deposits', formatInr(data.kpis.depositsPaid)],
+        ].map(([label, value], i) => (
+          <div key={label} className={`px-5 py-4 ${i > 0 ? 'border-l border-[var(--line)]' : ''}`}>
+            <dt className="text-[11px] tracking-[0.16em] text-[var(--muted)] uppercase">{label}</dt>
+            <dd className="mt-2 font-serif text-2xl">{value}</dd>
+          </div>
         ))}
-      </div>
-      <Card>
-        <CardHeader>
-          <CardTitle>Hall availability</CardTitle>
-        </CardHeader>
-        <CardContent>
+      </dl>
+
+      <section className="mt-12">
+        <h2 className="font-serif text-3xl">Hall availability</h2>
+        <p className="mt-2 text-sm text-[var(--muted)]">
+          Two weeks of mornings, afternoons, and evenings. Held means a quote is waiting on deposit.
+        </p>
+        <div className="mt-6">
           <AvailabilityCalendar halls={halls} />
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Enquiries</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ul className="divide-y">
-            {data.rfqs.length === 0 ? <li className="py-6 text-sm text-slate-500">No enquiries yet.</li> : null}
+        </div>
+      </section>
+
+      <section className="mt-14">
+        <h2 className="font-serif text-3xl">Enquiries</h2>
+        <p className="mt-2 text-sm text-[var(--muted)]">
+          What they asked, what Mosaic decided, where it stands.
+        </p>
+        {data.rfqs.length === 0 ? (
+          <p className="mt-6 border border-dashed border-[var(--line)] px-5 py-8 text-sm text-[var(--muted)]">
+            No enquiries yet. When an agent asks, the brief, the decision, and the status land in
+            this list.
+          </p>
+        ) : (
+          <ul className="mt-6 divide-y divide-[var(--line)] border-y border-[var(--line)]">
             {data.rfqs.map((rfq) => {
               const story = rfqStatusCopy(rfq.status);
+              const rfqQuotes = data.quotes.filter((quote) => quote.rfqId === rfq.id);
+              const liveQuotes = rfqQuotes.filter(
+                (quote) => quote.status === 'offered' || quote.status === 'accepted',
+              );
+              const quoteIds = new Set(
+                (liveQuotes.length ? liveQuotes : rfqQuotes).map((quote) => quote.id),
+              );
+              const itemNames = [
+                ...new Set(
+                  data.items.filter((item) => quoteIds.has(item.quoteId)).map((item) => item.name),
+                ),
+              ];
+              const acceptance = data.acceptances.find((row) => row.rfqId === rfq.id);
+              const depositPaid = Boolean(
+                acceptance &&
+                data.links.some(
+                  (link) => link.acceptanceId === acceptance.id && link.status === 'paid',
+                ),
+              );
+              const asked = enquiryHeadline(
+                rfq.sanitizedRequest || rfq.rawRequest,
+                rfq.parsedRequirements,
+              );
+              const decided = enquiryDecision({
+                status: rfq.status,
+                quotes: liveQuotes.length ? liveQuotes : rfqQuotes,
+                itemNames,
+                accepted: Boolean(acceptance),
+                depositPaid,
+              });
               return (
-                <li key={rfq.id} className="flex items-center justify-between gap-4 py-3 text-sm">
-                  <Link href={`/merchant/rfqs/${rfq.id}`} className="min-w-0 hover:underline">
-                    <span className="block font-medium">
-                      {enquiryHeadline(rfq.sanitizedRequest || rfq.rawRequest, rfq.parsedRequirements)}
+                <li key={rfq.id}>
+                  <Link
+                    href={`/merchant/rfqs/${rfq.id}`}
+                    className="grid gap-3 py-5 hover:bg-[var(--parchment-warm)]/70 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_auto] md:items-baseline md:gap-8"
+                  >
+                    <span>
+                      <span className="block font-medium">{asked}</span>
+                      <span className="mt-1 block text-xs text-[var(--muted)]">
+                        {rfq.createdAt.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
+                      </span>
                     </span>
-                    <span className="mt-0.5 block truncate text-xs text-slate-500">
-                      {rfq.createdAt.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} · {rfq.id.slice(0, 8)}
-                    </span>
+                    <span className="text-sm leading-relaxed text-[var(--accent)]">{decided}</span>
+                    <Badge tone={story.tone} className="w-fit rounded-none">
+                      {story.title}
+                    </Badge>
                   </Link>
-                  <Badge tone={story.tone} className="shrink-0">
-                    {story.title}
-                  </Badge>
                 </li>
               );
             })}
           </ul>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Activity</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <AuditTimeline
-            events={data.audit.map((e) => ({
-              id: e.id,
-              createdAt: e.createdAt.toISOString(),
-              eventType: e.eventType,
-              summary: e.summary,
-              actorType: e.actorType,
-              reason: e.reason,
-            }))}
-          />
-        </CardContent>
-      </Card>
+        )}
+      </section>
     </main>
   );
 }

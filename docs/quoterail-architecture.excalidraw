@@ -1,0 +1,2339 @@
+{
+ "type": "excalidraw",
+ "version": 2,
+ "source": "hermes-agent",
+ "elements": [
+  {
+   "type": "rectangle",
+   "id": "z1",
+   "x": 60,
+   "y": 150,
+   "width": 1700,
+   "height": 180,
+   "backgroundColor": "#f8f9fa",
+   "fillStyle": "solid",
+   "strokeColor": "#ced4da",
+   "strokeWidth": 1,
+   "roundness": {
+    "type": 3
+   }
+  },
+  {
+   "type": "rectangle",
+   "id": "z2",
+   "x": 60,
+   "y": 330,
+   "width": 1700,
+   "height": 200,
+   "backgroundColor": "#f8f9fa",
+   "fillStyle": "solid",
+   "strokeColor": "#ced4da",
+   "strokeWidth": 1,
+   "roundness": {
+    "type": 3
+   }
+  },
+  {
+   "type": "rectangle",
+   "id": "z3",
+   "x": 60,
+   "y": 530,
+   "width": 1700,
+   "height": 370,
+   "backgroundColor": "#f8f9fa",
+   "fillStyle": "solid",
+   "strokeColor": "#ced4da",
+   "strokeWidth": 1,
+   "roundness": {
+    "type": 3
+   }
+  },
+  {
+   "type": "rectangle",
+   "id": "z4",
+   "x": 60,
+   "y": 900,
+   "width": 1700,
+   "height": 360,
+   "backgroundColor": "#f8f9fa",
+   "fillStyle": "solid",
+   "strokeColor": "#ced4da",
+   "strokeWidth": 1,
+   "roundness": {
+    "type": 3
+   }
+  },
+  {
+   "type": "rectangle",
+   "id": "z5",
+   "x": 60,
+   "y": 1260,
+   "width": 1700,
+   "height": 340,
+   "backgroundColor": "#f8f9fa",
+   "fillStyle": "solid",
+   "strokeColor": "#ced4da",
+   "strokeWidth": 1,
+   "roundness": {
+    "type": 3
+   }
+  },
+  {
+   "type": "text",
+   "id": "title",
+   "x": 655,
+   "y": 40,
+   "width": 10,
+   "height": 10,
+   "text": "QuoteRail \u2014 System Architecture",
+   "fontSize": 34,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "left",
+   "verticalAlign": "top",
+   "originalText": "QuoteRail \u2014 System Architecture",
+   "autoResize": true
+  },
+  {
+   "type": "text",
+   "id": "subtitle",
+   "x": 330,
+   "y": 95,
+   "width": 10,
+   "height": 10,
+   "text": "Razorpay AI Buildathon \u00b7 merchant-side RFQ to policy-checked quotes to Razorpay checkout \u00b7 Mosaic Events Bengaluru",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "left",
+   "verticalAlign": "top",
+   "originalText": "Razorpay AI Buildathon \u00b7 merchant-side RFQ to policy-checked quotes to Razorpay checkout \u00b7 Mosaic Events Bengaluru",
+   "autoResize": true
+  },
+  {
+   "type": "text",
+   "id": "lane1",
+   "x": 80,
+   "y": 160,
+   "width": 10,
+   "height": 10,
+   "text": "Actors \u2014 who talks to the system",
+   "fontSize": 20,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "left",
+   "verticalAlign": "top",
+   "originalText": "Actors \u2014 who talks to the system",
+   "autoResize": true
+  },
+  {
+   "type": "text",
+   "id": "lane2",
+   "x": 80,
+   "y": 340,
+   "width": 10,
+   "height": 10,
+   "text": "Entry surfaces \u2014 Next.js route handlers",
+   "fontSize": 20,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "left",
+   "verticalAlign": "top",
+   "originalText": "Entry surfaces \u2014 Next.js route handlers",
+   "autoResize": true
+  },
+  {
+   "type": "text",
+   "id": "lane3",
+   "x": 80,
+   "y": 540,
+   "width": 10,
+   "height": 10,
+   "text": "Domain services \u2014 src/server (deterministic code owns money)",
+   "fontSize": 20,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "left",
+   "verticalAlign": "top",
+   "originalText": "Domain services \u2014 src/server (deterministic code owns money)",
+   "autoResize": true
+  },
+  {
+   "type": "text",
+   "id": "lane4",
+   "x": 80,
+   "y": 910,
+   "width": 10,
+   "height": 10,
+   "text": "Data \u2014 Postgres via Drizzle",
+   "fontSize": 20,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "left",
+   "verticalAlign": "top",
+   "originalText": "Data \u2014 Postgres via Drizzle",
+   "autoResize": true
+  },
+  {
+   "type": "text",
+   "id": "lane5",
+   "x": 80,
+   "y": 1270,
+   "width": 10,
+   "height": 10,
+   "text": "Cross-cutting + delivery notes",
+   "fontSize": 20,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "left",
+   "verticalAlign": "top",
+   "originalText": "Cross-cutting + delivery notes",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_buyer",
+   "x": 80,
+   "y": 200,
+   "width": 280,
+   "height": 100,
+   "backgroundColor": "#a5d8ff",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_buyer",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_buyer",
+   "x": 90,
+   "y": 210,
+   "width": 260,
+   "height": 25,
+   "text": "Buyer agent\nOpenCode via MCP\nbearer token",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_buyer",
+   "originalText": "Buyer agent\nOpenCode via MCP\nbearer token",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_merchant",
+   "x": 1100,
+   "y": 200,
+   "width": 280,
+   "height": 100,
+   "backgroundColor": "#ffd8a8",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_merchant",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_merchant",
+   "x": 1110,
+   "y": 210,
+   "width": 260,
+   "height": 25,
+   "text": "Merchant operator\nconsole login\napprovals + export",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_merchant",
+   "originalText": "Merchant operator\nconsole login\napprovals + export",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_razorpay",
+   "x": 1440,
+   "y": 200,
+   "width": 280,
+   "height": 100,
+   "backgroundColor": "#b2f2bb",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_razorpay",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_razorpay",
+   "x": 1450,
+   "y": 210,
+   "width": 260,
+   "height": 25,
+   "text": "Razorpay\nPayment Links\nsigned webhooks",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_razorpay",
+   "originalText": "Razorpay\nPayment Links\nsigned webhooks",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_mcp",
+   "x": 80,
+   "y": 380,
+   "width": 280,
+   "height": 120,
+   "backgroundColor": "#d0bfff",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_mcp",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_mcp",
+   "x": 90,
+   "y": 390,
+   "width": 260,
+   "height": 25,
+   "text": "/api/mcp\nremote MCP \u00b7 10 tools\nbearer auth",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_mcp",
+   "originalText": "/api/mcp\nremote MCP \u00b7 10 tools\nbearer auth",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_enquire",
+   "x": 420,
+   "y": 380,
+   "width": 280,
+   "height": 120,
+   "backgroundColor": "#a5d8ff",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_enquire",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_enquire",
+   "x": 430,
+   "y": 390,
+   "width": 260,
+   "height": 25,
+   "text": "/api/enquire *\nrequest \u00b7 continue\naccept \u00b7 checkout",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_enquire",
+   "originalText": "/api/enquire *\nrequest \u00b7 continue\naccept \u00b7 checkout",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_quotepg",
+   "x": 760,
+   "y": 380,
+   "width": 280,
+   "height": 120,
+   "backgroundColor": "#c3fae8",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_quotepg",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_quotepg",
+   "x": 770,
+   "y": 390,
+   "width": 260,
+   "height": 25,
+   "text": "/quote/[id]\npublic quote page\nagent-commerce.json",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_quotepg",
+   "originalText": "/quote/[id]\npublic quote page\nagent-commerce.json",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_console",
+   "x": 1100,
+   "y": 380,
+   "width": 280,
+   "height": 120,
+   "backgroundColor": "#ffd8a8",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_console",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_console",
+   "x": 1110,
+   "y": 390,
+   "width": 260,
+   "height": 25,
+   "text": "/merchant\nconsole + login\ndemo reset",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_console",
+   "originalText": "/merchant\nconsole + login\ndemo reset",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_whroute",
+   "x": 1440,
+   "y": 380,
+   "width": 280,
+   "height": 120,
+   "backgroundColor": "#ffc9c9",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_whroute",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_whroute",
+   "x": 1450,
+   "y": 390,
+   "width": 260,
+   "height": 25,
+   "text": "/api/webhooks\nrazorpay receiver\nHMAC verify",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_whroute",
+   "originalText": "/api/webhooks\nrazorpay receiver\nHMAC verify",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_rfqsvc",
+   "x": 80,
+   "y": 580,
+   "width": 280,
+   "height": 130,
+   "backgroundColor": "#a5d8ff",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_rfqsvc",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_rfqsvc",
+   "x": 90,
+   "y": 590,
+   "width": 260,
+   "height": 25,
+   "text": "rfq-service\nrequest \u00b7 revise\nRFQ state machine",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_rfqsvc",
+   "originalText": "rfq-service\nrequest \u00b7 revise\nRFQ state machine",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_planner",
+   "x": 420,
+   "y": 580,
+   "width": 280,
+   "height": 130,
+   "backgroundColor": "#d0bfff",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_planner",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_planner",
+   "x": 430,
+   "y": 590,
+   "width": 260,
+   "height": 25,
+   "text": "Bounded planner\nFake \u00b7 OpenCodeGo\n\u22643 calls, zod-checked",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_planner",
+   "originalText": "Bounded planner\nFake \u00b7 OpenCodeGo\n\u22643 calls, zod-checked",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_pricing",
+   "x": 760,
+   "y": 580,
+   "width": 280,
+   "height": 130,
+   "backgroundColor": "#c3fae8",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_pricing",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_pricing",
+   "x": 770,
+   "y": 590,
+   "width": 260,
+   "height": 25,
+   "text": "Pricing engine\nhall / fixed / guest\n40% deposit",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_pricing",
+   "originalText": "Pricing engine\nhall / fixed / guest\n40% deposit",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_policy",
+   "x": 1100,
+   "y": 580,
+   "width": 280,
+   "height": 130,
+   "backgroundColor": "#fff3bf",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_policy",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_policy",
+   "x": 1110,
+   "y": 590,
+   "width": 260,
+   "height": 25,
+   "text": "Policy engine\n5% \u00b7 10% ceilings\n25% margin floor",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_policy",
+   "originalText": "Policy engine\n5% \u00b7 10% ceilings\n25% margin floor",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_paymts",
+   "x": 1440,
+   "y": 580,
+   "width": 280,
+   "height": 130,
+   "backgroundColor": "#b2f2bb",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_paymts",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_paymts",
+   "x": 1450,
+   "y": 590,
+   "width": 260,
+   "height": 25,
+   "text": "Payment service\ncreating\u2192issued\u2192paid\nidempotent retry",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_paymts",
+   "originalText": "Payment service\ncreating\u2192issued\u2192paid\nidempotent retry",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_avail",
+   "x": 80,
+   "y": 770,
+   "width": 280,
+   "height": 120,
+   "backgroundColor": "#c3fae8",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_avail",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_avail",
+   "x": 90,
+   "y": 780,
+   "width": 260,
+   "height": 25,
+   "text": "Availability\nslots + capacity\n24 h holds",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_avail",
+   "originalText": "Availability\nslots + capacity\n24 h holds",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_accept",
+   "x": 420,
+   "y": 770,
+   "width": 280,
+   "height": 120,
+   "backgroundColor": "#a5d8ff",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_accept",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_accept",
+   "x": 430,
+   "y": 780,
+   "width": 260,
+   "height": 25,
+   "text": "quotes/accept\nlock slots \u00b7 supersede\nacceptance hash",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_accept",
+   "originalText": "quotes/accept\nlock slots \u00b7 supersede\nacceptance hash",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_mcpH",
+   "x": 760,
+   "y": 770,
+   "width": 280,
+   "height": 120,
+   "backgroundColor": "#d0bfff",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_mcpH",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_mcpH",
+   "x": 770,
+   "y": 780,
+   "width": 260,
+   "height": 25,
+   "text": "MCP handler\ntool routing + auth\nmerchant queries",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_mcpH",
+   "originalText": "MCP handler\ntool routing + auth\nmerchant queries",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_whH",
+   "x": 1100,
+   "y": 770,
+   "width": 280,
+   "height": 120,
+   "backgroundColor": "#ffc9c9",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_whH",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_whH",
+   "x": 1110,
+   "y": 780,
+   "width": 260,
+   "height": 25,
+   "text": "Webhook handler\nHMAC + dedup hash\ncommit / release",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_whH",
+   "originalText": "Webhook handler\nHMAC + dedup hash\ncommit / release",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_audit",
+   "x": 1440,
+   "y": 770,
+   "width": 280,
+   "height": 120,
+   "backgroundColor": "#fff3bf",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_audit",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_audit",
+   "x": 1450,
+   "y": 780,
+   "width": 260,
+   "height": 25,
+   "text": "Audit service\nappend-only events\ntrace_id + redact",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_audit",
+   "originalText": "Audit service\nappend-only events\ntrace_id + redact",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_rfqs",
+   "x": 80,
+   "y": 970,
+   "width": 280,
+   "height": 130,
+   "backgroundColor": "#c3fae8",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_rfqs",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_rfqs",
+   "x": 90,
+   "y": 980,
+   "width": 260,
+   "height": 25,
+   "text": "rfqs + messages\nstatus machine\nclarifications",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_rfqs",
+   "originalText": "rfqs + messages\nstatus machine\nclarifications",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_quotes",
+   "x": 420,
+   "y": 970,
+   "width": 280,
+   "height": 130,
+   "backgroundColor": "#c3fae8",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_quotes",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_quotes",
+   "x": 430,
+   "y": 980,
+   "width": 260,
+   "height": 25,
+   "text": "quotes\ndraft\u2192offered\n\u2192accepted",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_quotes",
+   "originalText": "quotes\ndraft\u2192offered\n\u2192accepted",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_resv",
+   "x": 760,
+   "y": 970,
+   "width": 280,
+   "height": 130,
+   "backgroundColor": "#c3fae8",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_resv",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_resv",
+   "x": 770,
+   "y": 980,
+   "width": 260,
+   "height": 25,
+   "text": "reservations\nactive \u00b7 committed\nreleased \u00b7 expired",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_resv",
+   "originalText": "reservations\nactive \u00b7 committed\nreleased \u00b7 expired",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_plinks",
+   "x": 1100,
+   "y": 970,
+   "width": 280,
+   "height": 130,
+   "backgroundColor": "#b2f2bb",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_plinks",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_plinks",
+   "x": 1110,
+   "y": 980,
+   "width": 260,
+   "height": 25,
+   "text": "payment_links\nissued \u00b7 paid\nfailures \u2192 stopped",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_plinks",
+   "originalText": "payment_links\nissued \u00b7 paid\nfailures \u2192 stopped",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_catalog",
+   "x": 1440,
+   "y": 970,
+   "width": 280,
+   "height": 130,
+   "backgroundColor": "#a5d8ff",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_catalog",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_catalog",
+   "x": 1450,
+   "y": 980,
+   "width": 260,
+   "height": 25,
+   "text": "Catalog\nmerchants \u00b7 offerings\nslots \u00b7 seed",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_catalog",
+   "originalText": "Catalog\nmerchants \u00b7 offerings\nslots \u00b7 seed",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_approvals",
+   "x": 80,
+   "y": 1120,
+   "width": 280,
+   "height": 110,
+   "backgroundColor": "#fff3bf",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_approvals",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_approvals",
+   "x": 90,
+   "y": 1130,
+   "width": 260,
+   "height": 25,
+   "text": "approvals\npending\u2192approved\nfull-total ceilings",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_approvals",
+   "originalText": "approvals\npending\u2192approved\nfull-total ceilings",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_whevents",
+   "x": 420,
+   "y": 1120,
+   "width": 280,
+   "height": 110,
+   "backgroundColor": "#ffc9c9",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_whevents",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_whevents",
+   "x": 430,
+   "y": 1130,
+   "width": 260,
+   "height": 25,
+   "text": "webhook_events\nbody-hash dedup\nignore regressions",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_whevents",
+   "originalText": "webhook_events\nbody-hash dedup\nignore regressions",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_auditev",
+   "x": 760,
+   "y": 1120,
+   "width": 280,
+   "height": 110,
+   "backgroundColor": "#fff3bf",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_auditev",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_auditev",
+   "x": 770,
+   "y": 1130,
+   "width": 260,
+   "height": 25,
+   "text": "audit_events\nlifecycle writes\nsanitized export",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_auditev",
+   "originalText": "audit_events\nlifecycle writes\nsanitized export",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_shared",
+   "x": 1100,
+   "y": 1120,
+   "width": 620,
+   "height": 110,
+   "backgroundColor": "#e9ecef",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_shared",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_shared",
+   "x": 1110,
+   "y": 1130,
+   "width": 600,
+   "height": 25,
+   "text": "shared/ kernel \u2014 zod schemas \u00b7 money \u00b7 hash \u00b7 clock \u00b7 ids \u00b7 result",
+   "fontSize": 16,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_shared",
+   "originalText": "shared/ kernel \u2014 zod schemas \u00b7 money \u00b7 hash \u00b7 clock \u00b7 ids \u00b7 result",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_auth",
+   "x": 80,
+   "y": 1310,
+   "width": 620,
+   "height": 110,
+   "backgroundColor": "#ffd8a8",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_auth",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_auth",
+   "x": 90,
+   "y": 1320,
+   "width": 600,
+   "height": 25,
+   "text": "AuthN/Z \u2014 buyer bearer + MCP token \u00b7 capability tickets \u00b7 merchant sessions \u00b7 rate-limit",
+   "fontSize": 16,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_auth",
+   "originalText": "AuthN/Z \u2014 buyer bearer + MCP token \u00b7 capability tickets \u00b7 merchant sessions \u00b7 rate-limit",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_adapters",
+   "x": 760,
+   "y": 1310,
+   "width": 620,
+   "height": 110,
+   "backgroundColor": "#b2f2bb",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_adapters",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_adapters",
+   "x": 770,
+   "y": 1320,
+   "width": 600,
+   "height": 25,
+   "text": "Adapters \u2014 FakeModel \u2194 OpenCodeGo \u00b7 Fake payments \u2194 Razorpay \u00b7 HMAC verify",
+   "fontSize": 16,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_adapters",
+   "originalText": "Adapters \u2014 FakeModel \u2194 OpenCodeGo \u00b7 Fake payments \u2194 Razorpay \u00b7 HMAC verify",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_quality",
+   "x": 1440,
+   "y": 1310,
+   "width": 280,
+   "height": 110,
+   "backgroundColor": "#d0bfff",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_quality",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_quality",
+   "x": 1450,
+   "y": 1320,
+   "width": 260,
+   "height": 25,
+   "text": "Quality\nvitest + playwright\n30-RFQ evals",
+   "fontSize": 18,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_quality",
+   "originalText": "Quality\nvitest + playwright\n30-RFQ evals",
+   "autoResize": true
+  },
+  {
+   "type": "rectangle",
+   "id": "b_notes",
+   "x": 80,
+   "y": 1460,
+   "width": 1640,
+   "height": 120,
+   "backgroundColor": "#ffffff",
+   "fillStyle": "solid",
+   "strokeColor": "#1e1e1e",
+   "strokeWidth": 2,
+   "roundness": {
+    "type": 3
+   },
+   "boundElements": [
+    {
+     "id": "t_b_notes",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b_notes",
+   "x": 90,
+   "y": 1470,
+   "width": 1620,
+   "height": 25,
+   "text": "Golden path: 1 request_quote \u2192 2 dispatch \u2192 3 extract+plan \u2192 4 price \u2192 5 policy check \u2192 6 persist offered \u2192 7 accept \u2192 8 reserve \u2192 9 Payment Link \u2192 10 webhook \u2192 11 verify \u2192 12 paid+commit\nInvariants: model never prices \u00b7 checkout only from immutable acceptance \u00b7 webhooks authoritative after HMAC \u00b7 offered quotes hold nothing, acceptance holds 24 h",
+   "fontSize": 16,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b_notes",
+   "originalText": "Golden path: 1 request_quote \u2192 2 dispatch \u2192 3 extract+plan \u2192 4 price \u2192 5 policy check \u2192 6 persist offered \u2192 7 accept \u2192 8 reserve \u2192 9 Payment Link \u2192 10 webhook \u2192 11 verify \u2192 12 paid+commit\nInvariants: model never prices \u00b7 checkout only from immutable acceptance \u00b7 webhooks authoritative after HMAC \u00b7 offered quotes hold nothing, acceptance holds 24 h",
+   "autoResize": true
+  },
+  {
+   "type": "arrow",
+   "id": "a1",
+   "x": 230,
+   "y": 300,
+   "width": 0,
+   "height": 80,
+   "points": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     80
+    ]
+   ],
+   "endArrowhead": "arrow",
+   "strokeColor": "#1971c2",
+   "strokeWidth": 2,
+   "startBinding": {
+    "elementId": "b_buyer",
+    "fixedPoint": [
+     0.5,
+     1
+    ]
+   },
+   "endBinding": {
+    "elementId": "b_mcp",
+    "fixedPoint": [
+     0.5,
+     0
+    ]
+   },
+   "boundElements": [
+    {
+     "id": "t_a1",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_a1",
+   "x": 162.8,
+   "y": 324.0,
+   "width": 134.4,
+   "height": 20,
+   "text": "1 request_quote",
+   "fontSize": 16,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "a1",
+   "originalText": "1 request_quote",
+   "autoResize": true
+  },
+  {
+   "type": "arrow",
+   "id": "a2",
+   "x": 230,
+   "y": 500,
+   "width": 0,
+   "height": 80,
+   "points": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     80
+    ]
+   ],
+   "endArrowhead": "arrow",
+   "strokeColor": "#1971c2",
+   "strokeWidth": 2,
+   "startBinding": {
+    "elementId": "b_mcp",
+    "fixedPoint": [
+     0.5,
+     1
+    ]
+   },
+   "endBinding": {
+    "elementId": "b_rfqsvc",
+    "fixedPoint": [
+     0.5,
+     0
+    ]
+   },
+   "boundElements": [
+    {
+     "id": "t_a2",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_a2",
+   "x": 185.2,
+   "y": 524.0,
+   "width": 89.60000000000001,
+   "height": 20,
+   "text": "2 dispatch",
+   "fontSize": 16,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "a2",
+   "originalText": "2 dispatch",
+   "autoResize": true
+  },
+  {
+   "type": "arrow",
+   "id": "a3",
+   "x": 360,
+   "y": 645,
+   "width": 60,
+   "height": 0,
+   "points": [
+    [
+     0,
+     0
+    ],
+    [
+     60,
+     0
+    ]
+   ],
+   "endArrowhead": "arrow",
+   "strokeColor": "#1971c2",
+   "strokeWidth": 2,
+   "startBinding": {
+    "elementId": "b_rfqsvc",
+    "fixedPoint": [
+     1,
+     0.5
+    ]
+   },
+   "endBinding": {
+    "elementId": "b_planner",
+    "fixedPoint": [
+     0,
+     0.5
+    ]
+   },
+   "boundElements": [
+    {
+     "id": "t_a3",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_a3",
+   "x": 318.32,
+   "y": 629.0,
+   "width": 143.36,
+   "height": 20,
+   "text": "3 extract + plan",
+   "fontSize": 16,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "a3",
+   "originalText": "3 extract + plan",
+   "autoResize": true
+  },
+  {
+   "type": "arrow",
+   "id": "a4",
+   "x": 700,
+   "y": 645,
+   "width": 60,
+   "height": 0,
+   "points": [
+    [
+     0,
+     0
+    ],
+    [
+     60,
+     0
+    ]
+   ],
+   "endArrowhead": "arrow",
+   "strokeColor": "#1971c2",
+   "strokeWidth": 2,
+   "startBinding": {
+    "elementId": "b_planner",
+    "fixedPoint": [
+     1,
+     0.5
+    ]
+   },
+   "endBinding": {
+    "elementId": "b_pricing",
+    "fixedPoint": [
+     0,
+     0.5
+    ]
+   },
+   "boundElements": [
+    {
+     "id": "t_a4",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_a4",
+   "x": 698.64,
+   "y": 629.0,
+   "width": 62.720000000000006,
+   "height": 20,
+   "text": "4 price",
+   "fontSize": 16,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "a4",
+   "originalText": "4 price",
+   "autoResize": true
+  },
+  {
+   "type": "arrow",
+   "id": "a5",
+   "x": 1040,
+   "y": 645,
+   "width": 60,
+   "height": 0,
+   "points": [
+    [
+     0,
+     0
+    ],
+    [
+     60,
+     0
+    ]
+   ],
+   "endArrowhead": "arrow",
+   "strokeColor": "#1971c2",
+   "strokeWidth": 2,
+   "startBinding": {
+    "elementId": "b_pricing",
+    "fixedPoint": [
+     1,
+     0.5
+    ]
+   },
+   "endBinding": {
+    "elementId": "b_policy",
+    "fixedPoint": [
+     0,
+     0.5
+    ]
+   },
+   "boundElements": [
+    {
+     "id": "t_a5",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_a5",
+   "x": 1007.28,
+   "y": 629.0,
+   "width": 125.44000000000001,
+   "height": 20,
+   "text": "5 policy check",
+   "fontSize": 16,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "a5",
+   "originalText": "5 policy check",
+   "autoResize": true
+  },
+  {
+   "type": "arrow",
+   "id": "a6",
+   "x": 1240,
+   "y": 710,
+   "width": 680,
+   "height": 260,
+   "points": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     30
+    ],
+    [
+     -510,
+     30
+    ],
+    [
+     -510,
+     220
+    ],
+    [
+     -680,
+     220
+    ],
+    [
+     -680,
+     260
+    ]
+   ],
+   "endArrowhead": "arrow",
+   "strokeColor": "#1971c2",
+   "strokeWidth": 2,
+   "boundElements": [
+    {
+     "id": "t_a6",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_a6",
+   "x": 823.84,
+   "y": 824.0,
+   "width": 152.32000000000002,
+   "height": 20,
+   "text": "6 persist offered",
+   "fontSize": 16,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "a6",
+   "originalText": "6 persist offered",
+   "autoResize": true
+  },
+  {
+   "type": "arrow",
+   "id": "a7",
+   "x": 560,
+   "y": 710,
+   "width": 0,
+   "height": 60,
+   "points": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     60
+    ]
+   ],
+   "endArrowhead": "arrow",
+   "strokeColor": "#1971c2",
+   "strokeWidth": 2,
+   "startBinding": {
+    "elementId": "b_planner",
+    "fixedPoint": [
+     0.5,
+     1
+    ]
+   },
+   "endBinding": {
+    "elementId": "b_accept",
+    "fixedPoint": [
+     0.5,
+     0
+    ]
+   },
+   "boundElements": [
+    {
+     "id": "t_a7",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_a7",
+   "x": 528.64,
+   "y": 726.0,
+   "width": 62.720000000000006,
+   "height": 20,
+   "text": "7 accept",
+   "fontSize": 14,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "a7",
+   "originalText": "7 accept",
+   "autoResize": true
+  },
+  {
+   "type": "arrow",
+   "id": "a8",
+   "x": 630,
+   "y": 890,
+   "width": 200,
+   "height": 80,
+   "points": [
+    [
+     0,
+     0
+    ],
+    [
+     200,
+     80
+    ]
+   ],
+   "endArrowhead": "arrow",
+   "strokeColor": "#1971c2",
+   "strokeWidth": 2,
+   "boundElements": [
+    {
+     "id": "t_a8",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_a8",
+   "x": 671.76,
+   "y": 914.0,
+   "width": 116.48000000000002,
+   "height": 20,
+   "text": "8 reserve 24h",
+   "fontSize": 16,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "a8",
+   "originalText": "8 reserve 24h",
+   "autoResize": true
+  },
+  {
+   "type": "arrow",
+   "id": "a9",
+   "x": 1720,
+   "y": 645,
+   "width": 70,
+   "height": 395,
+   "points": [
+    [
+     0,
+     0
+    ],
+    [
+     70,
+     0
+    ],
+    [
+     70,
+     -395
+    ],
+    [
+     0,
+     -395
+    ]
+   ],
+   "endArrowhead": "arrow",
+   "strokeColor": "#1971c2",
+   "strokeWidth": 2,
+   "boundElements": [
+    {
+     "id": "t_a9",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_a9",
+   "x": 1692.28,
+   "y": 431.5,
+   "width": 125.44000000000001,
+   "height": 20,
+   "text": "9 Payment Link",
+   "fontSize": 16,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "a9",
+   "originalText": "9 Payment Link",
+   "autoResize": true
+  },
+  {
+   "type": "arrow",
+   "id": "a10",
+   "x": 1580,
+   "y": 300,
+   "width": 0,
+   "height": 80,
+   "points": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     80
+    ]
+   ],
+   "endArrowhead": "arrow",
+   "strokeColor": "#1971c2",
+   "strokeWidth": 2,
+   "startBinding": {
+    "elementId": "b_razorpay",
+    "fixedPoint": [
+     0.5,
+     1
+    ]
+   },
+   "endBinding": {
+    "elementId": "b_whroute",
+    "fixedPoint": [
+     0.5,
+     0
+    ]
+   },
+   "boundElements": [
+    {
+     "id": "t_a10",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_a10",
+   "x": 1535.2,
+   "y": 324.0,
+   "width": 89.60000000000001,
+   "height": 20,
+   "text": "10 webhook",
+   "fontSize": 16,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "a10",
+   "originalText": "10 webhook",
+   "autoResize": true
+  },
+  {
+   "type": "arrow",
+   "id": "a11",
+   "x": 1510,
+   "y": 500,
+   "width": 270,
+   "height": 430,
+   "points": [
+    [
+     0,
+     0
+    ],
+    [
+     -100,
+     0
+    ],
+    [
+     -100,
+     430
+    ],
+    [
+     -270,
+     430
+    ],
+    [
+     -270,
+     390
+    ]
+   ],
+   "endArrowhead": "arrow",
+   "strokeColor": "#1971c2",
+   "strokeWidth": 2,
+   "boundElements": [
+    {
+     "id": "t_a11",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_a11",
+   "x": 1298.84,
+   "y": 699.0,
+   "width": 152.32000000000002,
+   "height": 20,
+   "text": "11 verify + dedup",
+   "fontSize": 16,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "a11",
+   "originalText": "11 verify + dedup",
+   "autoResize": true
+  },
+  {
+   "type": "arrow",
+   "id": "a12",
+   "x": 1240,
+   "y": 890,
+   "width": 0,
+   "height": 80,
+   "points": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     80
+    ]
+   ],
+   "endArrowhead": "arrow",
+   "strokeColor": "#1971c2",
+   "strokeWidth": 2,
+   "startBinding": {
+    "elementId": "b_whH",
+    "fixedPoint": [
+     0.5,
+     1
+    ]
+   },
+   "endBinding": {
+    "elementId": "b_plinks",
+    "fixedPoint": [
+     0.5,
+     0
+    ]
+   },
+   "boundElements": [
+    {
+     "id": "t_a12",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_a12",
+   "x": 1168.32,
+   "y": 914.0,
+   "width": 143.36,
+   "height": 20,
+   "text": "12 paid \u2192 commit",
+   "fontSize": 16,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "a12",
+   "originalText": "12 paid \u2192 commit",
+   "autoResize": true
+  },
+  {
+   "type": "arrow",
+   "id": "b1",
+   "x": 560,
+   "y": 500,
+   "width": 0,
+   "height": 80,
+   "points": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     80
+    ]
+   ],
+   "endArrowhead": "arrow",
+   "strokeColor": "#868e96",
+   "strokeWidth": 2,
+   "startBinding": {
+    "elementId": "b_enquire",
+    "fixedPoint": [
+     0.5,
+     1
+    ]
+   },
+   "endBinding": {
+    "elementId": "b_planner",
+    "fixedPoint": [
+     0.5,
+     0
+    ]
+   },
+   "boundElements": [
+    {
+     "id": "t_b1",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b1",
+   "x": 505.12,
+   "y": 526.0,
+   "width": 109.76,
+   "height": 20,
+   "text": "ticket + brief",
+   "fontSize": 14,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b1",
+   "originalText": "ticket + brief",
+   "autoResize": true
+  },
+  {
+   "type": "arrow",
+   "id": "b2",
+   "x": 230,
+   "y": 710,
+   "width": 0,
+   "height": 60,
+   "points": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     60
+    ]
+   ],
+   "endArrowhead": "arrow",
+   "strokeColor": "#868e96",
+   "strokeWidth": 2,
+   "startBinding": {
+    "elementId": "b_rfqsvc",
+    "fixedPoint": [
+     0.5,
+     1
+    ]
+   },
+   "endBinding": {
+    "elementId": "b_avail",
+    "fixedPoint": [
+     0.5,
+     0
+    ]
+   },
+   "boundElements": [
+    {
+     "id": "t_b2",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b2",
+   "x": 190.8,
+   "y": 726.0,
+   "width": 78.4,
+   "height": 20,
+   "text": "slot check",
+   "fontSize": 14,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b2",
+   "originalText": "slot check",
+   "autoResize": true
+  },
+  {
+   "type": "arrow",
+   "id": "b3",
+   "x": 230,
+   "y": 890,
+   "width": 0,
+   "height": 80,
+   "points": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     80
+    ]
+   ],
+   "endArrowhead": "arrow",
+   "strokeColor": "#868e96",
+   "strokeWidth": 2,
+   "startBinding": {
+    "elementId": "b_avail",
+    "fixedPoint": [
+     0.5,
+     1
+    ]
+   },
+   "endBinding": {
+    "elementId": "b_rfqs",
+    "fixedPoint": [
+     0.5,
+     0
+    ]
+   },
+   "boundElements": [
+    {
+     "id": "t_b3",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b3",
+   "x": 210.4,
+   "y": 916.0,
+   "width": 39.2,
+   "height": 20,
+   "text": "holds",
+   "fontSize": 14,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b3",
+   "originalText": "holds",
+   "autoResize": true
+  },
+  {
+   "type": "arrow",
+   "id": "b4",
+   "x": 670,
+   "y": 890,
+   "width": 310,
+   "height": 285,
+   "points": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     40
+    ],
+    [
+     -280,
+     40
+    ],
+    [
+     -280,
+     285
+    ],
+    [
+     -310,
+     285
+    ]
+   ],
+   "endArrowhead": "arrow",
+   "strokeColor": "#868e96",
+   "strokeWidth": 2,
+   "boundElements": [
+    {
+     "id": "t_b4",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b4",
+   "x": 479.72,
+   "y": 1018.5,
+   "width": 70.56,
+   "height": 20,
+   "text": "approvals",
+   "fontSize": 14,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b4",
+   "originalText": "approvals",
+   "autoResize": true
+  },
+  {
+   "type": "arrow",
+   "id": "b5",
+   "x": 1240,
+   "y": 300,
+   "width": 0,
+   "height": 80,
+   "points": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     80
+    ]
+   ],
+   "endArrowhead": "arrow",
+   "strokeColor": "#868e96",
+   "strokeWidth": 2,
+   "startBinding": {
+    "elementId": "b_merchant",
+    "fixedPoint": [
+     0.5,
+     1
+    ]
+   },
+   "endBinding": {
+    "elementId": "b_console",
+    "fixedPoint": [
+     0.5,
+     0
+    ]
+   },
+   "boundElements": [
+    {
+     "id": "t_b5",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "type": "text",
+   "id": "t_b5",
+   "x": 1169.44,
+   "y": 326.0,
+   "width": 141.12,
+   "height": 20,
+   "text": "reviews + approves",
+   "fontSize": 14,
+   "fontFamily": 1,
+   "strokeColor": "#1e1e1e",
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "b5",
+   "originalText": "reviews + approves",
+   "autoResize": true
+  }
+ ],
+ "appState": {
+  "viewBackgroundColor": "#ffffff"
+ }
+}

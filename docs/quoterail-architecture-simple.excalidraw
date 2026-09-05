@@ -1,0 +1,1108 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "hermes-agent",
+  "elements": [
+    {
+      "type": "text",
+      "id": "title",
+      "x": 542.4,
+      "y": 36,
+      "width": 475.2,
+      "height": 45.0,
+      "text": "QuoteRail — How it works",
+      "fontSize": 36,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "originalText": "QuoteRail — How it works",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "x": 400.5,
+      "y": 92,
+      "width": 759.0,
+      "height": 25.0,
+      "text": "Event enquiry becomes a Razorpay checkout. AI proposes, code decides.",
+      "fontSize": 20,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "originalText": "Event enquiry becomes a Razorpay checkout. AI proposes, code decides.",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "rectangle",
+      "id": "b_buyer",
+      "x": 480,
+      "y": 160,
+      "width": 320,
+      "height": 90,
+      "backgroundColor": "#a5d8ff",
+      "fillStyle": "solid",
+      "strokeColor": "#1e1e1e",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "t_b_buyer",
+          "type": "text"
+        },
+        {
+          "id": "a1",
+          "type": "arrow"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "t_b_buyer",
+      "x": 579.5,
+      "y": 180.0,
+      "width": 121.0,
+      "height": 50.0,
+      "text": "Buyer agent\n(OpenCode)",
+      "fontSize": 20,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "b_buyer",
+      "originalText": "Buyer agent\n(OpenCode)",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "rectangle",
+      "id": "b_mcp",
+      "x": 480,
+      "y": 300,
+      "width": 320,
+      "height": 90,
+      "backgroundColor": "#d0bfff",
+      "fillStyle": "solid",
+      "strokeColor": "#1e1e1e",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "t_b_mcp",
+          "type": "text"
+        },
+        {
+          "id": "a1",
+          "type": "arrow"
+        },
+        {
+          "id": "a2",
+          "type": "arrow"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "t_b_mcp",
+      "x": 541.0,
+      "y": 320.0,
+      "width": 198.0,
+      "height": 50.0,
+      "text": "Remote MCP\n/api/mcp · 9 tools",
+      "fontSize": 20,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "b_mcp",
+      "originalText": "Remote MCP\n/api/mcp · 9 tools",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "rectangle",
+      "id": "b_plan",
+      "x": 480,
+      "y": 440,
+      "width": 320,
+      "height": 90,
+      "backgroundColor": "#d0bfff",
+      "fillStyle": "solid",
+      "strokeColor": "#1e1e1e",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "t_b_plan",
+          "type": "text"
+        },
+        {
+          "id": "a2",
+          "type": "arrow"
+        },
+        {
+          "id": "a3",
+          "type": "arrow"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "t_b_plan",
+      "x": 524.5,
+      "y": 460.0,
+      "width": 231.0,
+      "height": 50.0,
+      "text": "Planner\nunderstands the brief",
+      "fontSize": 20,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "b_plan",
+      "originalText": "Planner\nunderstands the brief",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "rectangle",
+      "id": "b_policy",
+      "x": 480,
+      "y": 580,
+      "width": 320,
+      "height": 90,
+      "backgroundColor": "#fff3bf",
+      "fillStyle": "solid",
+      "strokeColor": "#1e1e1e",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "t_b_policy",
+          "type": "text"
+        },
+        {
+          "id": "a3",
+          "type": "arrow"
+        },
+        {
+          "id": "a4",
+          "type": "arrow"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "t_b_policy",
+      "x": 519.0,
+      "y": 600.0,
+      "width": 242.0,
+      "height": 50.0,
+      "text": "Pricing + policy\n deterministic, not AI",
+      "fontSize": 20,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "b_policy",
+      "originalText": "Pricing + policy\n deterministic, not AI",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "rectangle",
+      "id": "b_quotes",
+      "x": 480,
+      "y": 720,
+      "width": 320,
+      "height": 90,
+      "backgroundColor": "#c3fae8",
+      "fillStyle": "solid",
+      "strokeColor": "#1e1e1e",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "t_b_quotes",
+          "type": "text"
+        },
+        {
+          "id": "a4",
+          "type": "arrow"
+        },
+        {
+          "id": "a5",
+          "type": "arrow"
+        },
+        {
+          "id": "a7",
+          "type": "arrow"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "t_b_quotes",
+      "x": 541.0,
+      "y": 740.0,
+      "width": 198.0,
+      "height": 50.0,
+      "text": "Quote\noffered → accepted",
+      "fontSize": 20,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "b_quotes",
+      "originalText": "Quote\noffered → accepted",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "rectangle",
+      "id": "b_pay",
+      "x": 480,
+      "y": 860,
+      "width": 320,
+      "height": 90,
+      "backgroundColor": "#b2f2bb",
+      "fillStyle": "solid",
+      "strokeColor": "#1e1e1e",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "t_b_pay",
+          "type": "text"
+        },
+        {
+          "id": "a5",
+          "type": "arrow"
+        },
+        {
+          "id": "a6",
+          "type": "arrow"
+        },
+        {
+          "id": "a8",
+          "type": "arrow"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "t_b_pay",
+      "x": 524.5,
+      "y": 880.0,
+      "width": 231.0,
+      "height": 50.0,
+      "text": "Checkout\nRazorpay Payment Link",
+      "fontSize": 20,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "b_pay",
+      "originalText": "Checkout\nRazorpay Payment Link",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "rectangle",
+      "id": "b_paid",
+      "x": 480,
+      "y": 1000,
+      "width": 320,
+      "height": 90,
+      "backgroundColor": "#b2f2bb",
+      "fillStyle": "solid",
+      "strokeColor": "#1e1e1e",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "t_b_paid",
+          "type": "text"
+        },
+        {
+          "id": "a6",
+          "type": "arrow"
+        },
+        {
+          "id": "a9",
+          "type": "arrow"
+        },
+        {
+          "id": "a10",
+          "type": "arrow"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "t_b_paid",
+      "x": 552.0,
+      "y": 1020.0,
+      "width": 176.0,
+      "height": 50.0,
+      "text": "Paid\nwebhook confirms",
+      "fontSize": 20,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "b_paid",
+      "originalText": "Paid\nwebhook confirms",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "rectangle",
+      "id": "b_console",
+      "x": 900,
+      "y": 720,
+      "width": 280,
+      "height": 90,
+      "backgroundColor": "#ffd8a8",
+      "fillStyle": "solid",
+      "strokeColor": "#1e1e1e",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "t_b_console",
+          "type": "text"
+        },
+        {
+          "id": "a7",
+          "type": "arrow"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "t_b_console",
+      "x": 952.0,
+      "y": 740.0,
+      "width": 176.0,
+      "height": 50.0,
+      "text": "Merchant console\napprovals",
+      "fontSize": 20,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "b_console",
+      "originalText": "Merchant console\napprovals",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "rectangle",
+      "id": "b_razorpay",
+      "x": 900,
+      "y": 860,
+      "width": 280,
+      "height": 90,
+      "backgroundColor": "#b2f2bb",
+      "fillStyle": "solid",
+      "strokeColor": "#1e1e1e",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "t_b_razorpay",
+          "type": "text"
+        },
+        {
+          "id": "a8",
+          "type": "arrow"
+        },
+        {
+          "id": "a9",
+          "type": "arrow"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "t_b_razorpay",
+      "x": 935.5,
+      "y": 880.0,
+      "width": 209.0,
+      "height": 50.0,
+      "text": "Razorpay\nhosted payment page",
+      "fontSize": 20,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "b_razorpay",
+      "originalText": "Razorpay\nhosted payment page",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "rectangle",
+      "id": "b_db",
+      "x": 380,
+      "y": 1140,
+      "width": 520,
+      "height": 90,
+      "backgroundColor": "#c3fae8",
+      "fillStyle": "solid",
+      "strokeColor": "#1e1e1e",
+      "strokeWidth": 2,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "t_b_db",
+          "type": "text"
+        },
+        {
+          "id": "a10",
+          "type": "arrow"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "t_b_db",
+      "x": 464.0,
+      "y": 1160.0,
+      "width": 352.0,
+      "height": 50.0,
+      "text": "PostgreSQL\nrfqs · quotes · payments · audit",
+      "fontSize": 20,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "b_db",
+      "originalText": "PostgreSQL\nrfqs · quotes · payments · audit",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "arrow",
+      "id": "a1",
+      "x": 640,
+      "y": 250,
+      "width": 0,
+      "height": 50,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          50
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#1971c2",
+      "strokeWidth": 2,
+      "startBinding": {
+        "elementId": "b_buyer",
+        "fixedPoint": [
+          0.5,
+          1
+        ]
+      },
+      "endBinding": {
+        "elementId": "b_mcp",
+        "fixedPoint": [
+          0.5,
+          0
+        ]
+      },
+      "boundElements": [
+        {
+          "id": "t_a1",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "t_a1",
+      "x": 570.7,
+      "y": 263.8,
+      "width": 138.6,
+      "height": 22.5,
+      "text": "asks for quote",
+      "fontSize": 18,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "a1",
+      "originalText": "asks for quote",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "arrow",
+      "id": "a2",
+      "x": 640,
+      "y": 390,
+      "width": 0,
+      "height": 50,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          50
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#1971c2",
+      "strokeWidth": 2,
+      "startBinding": {
+        "elementId": "b_mcp",
+        "fixedPoint": [
+          0.5,
+          1
+        ]
+      },
+      "endBinding": {
+        "elementId": "b_plan",
+        "fixedPoint": [
+          0.5,
+          0
+        ]
+      },
+      "boundElements": [
+        {
+          "id": "t_a2",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "t_a2",
+      "x": 570.7,
+      "y": 403.8,
+      "width": 138.6,
+      "height": 22.5,
+      "text": "extract + plan",
+      "fontSize": 18,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "a2",
+      "originalText": "extract + plan",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "arrow",
+      "id": "a3",
+      "x": 640,
+      "y": 530,
+      "width": 0,
+      "height": 50,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          50
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#1971c2",
+      "strokeWidth": 2,
+      "startBinding": {
+        "elementId": "b_plan",
+        "fixedPoint": [
+          0.5,
+          1
+        ]
+      },
+      "endBinding": {
+        "elementId": "b_policy",
+        "fixedPoint": [
+          0.5,
+          0
+        ]
+      },
+      "boundElements": [
+        {
+          "id": "t_a3",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "t_a3",
+      "x": 546.0,
+      "y": 543.8,
+      "width": 188.1,
+      "height": 22.5,
+      "text": "price + check rules",
+      "fontSize": 18,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "a3",
+      "originalText": "price + check rules",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "arrow",
+      "id": "a4",
+      "x": 640,
+      "y": 670,
+      "width": 0,
+      "height": 50,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          50
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#1971c2",
+      "strokeWidth": 2,
+      "startBinding": {
+        "elementId": "b_policy",
+        "fixedPoint": [
+          0.5,
+          1
+        ]
+      },
+      "endBinding": {
+        "elementId": "b_quotes",
+        "fixedPoint": [
+          0.5,
+          0
+        ]
+      },
+      "boundElements": [
+        {
+          "id": "t_a4",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "t_a4",
+      "x": 585.5,
+      "y": 683.8,
+      "width": 108.9,
+      "height": 22.5,
+      "text": "offer saved",
+      "fontSize": 18,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "a4",
+      "originalText": "offer saved",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "arrow",
+      "id": "a5",
+      "x": 640,
+      "y": 810,
+      "width": 0,
+      "height": 50,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          50
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#1971c2",
+      "strokeWidth": 2,
+      "startBinding": {
+        "elementId": "b_quotes",
+        "fixedPoint": [
+          0.5,
+          1
+        ]
+      },
+      "endBinding": {
+        "elementId": "b_pay",
+        "fixedPoint": [
+          0.5,
+          0
+        ]
+      },
+      "boundElements": [
+        {
+          "id": "t_a5",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "t_a5",
+      "x": 580.6,
+      "y": 823.8,
+      "width": 118.8,
+      "height": 22.5,
+      "text": "accept → pay",
+      "fontSize": 18,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "a5",
+      "originalText": "accept → pay",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "arrow",
+      "id": "a6",
+      "x": 640,
+      "y": 950,
+      "width": 0,
+      "height": 50,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          50
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#1971c2",
+      "strokeWidth": 2,
+      "startBinding": {
+        "elementId": "b_pay",
+        "fixedPoint": [
+          0.5,
+          1
+        ]
+      },
+      "endBinding": {
+        "elementId": "b_paid",
+        "fixedPoint": [
+          0.5,
+          0
+        ]
+      },
+      "boundElements": [
+        {
+          "id": "t_a6",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "t_a6",
+      "x": 585.5,
+      "y": 963.8,
+      "width": 108.9,
+      "height": 22.5,
+      "text": "link issued",
+      "fontSize": 18,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "a6",
+      "originalText": "link issued",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "arrow",
+      "id": "a7",
+      "x": 900,
+      "y": 765,
+      "width": 100,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          -100,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#1971c2",
+      "strokeWidth": 2,
+      "startBinding": {
+        "elementId": "b_console",
+        "fixedPoint": [
+          0,
+          0.5
+        ]
+      },
+      "endBinding": {
+        "elementId": "b_quotes",
+        "fixedPoint": [
+          1,
+          0.5
+        ]
+      },
+      "boundElements": [
+        {
+          "id": "t_a7",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "t_a7",
+      "x": 815.4,
+      "y": 753.8,
+      "width": 69.3,
+      "height": 22.5,
+      "text": "approve",
+      "fontSize": 18,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "a7",
+      "originalText": "approve",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "arrow",
+      "id": "a8",
+      "x": 800,
+      "y": 905,
+      "width": 100,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          100,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#1971c2",
+      "strokeWidth": 2,
+      "startBinding": {
+        "elementId": "b_pay",
+        "fixedPoint": [
+          1,
+          0.5
+        ]
+      },
+      "endBinding": {
+        "elementId": "b_razorpay",
+        "fixedPoint": [
+          0,
+          0.5
+        ]
+      },
+      "boundElements": [
+        {
+          "id": "t_a8",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "t_a8",
+      "x": 805.5,
+      "y": 893.8,
+      "width": 89.1,
+      "height": 22.5,
+      "text": "pays here",
+      "fontSize": 18,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "a8",
+      "originalText": "pays here",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "arrow",
+      "id": "a9",
+      "x": 1040.0,
+      "y": 950,
+      "width": 240.0,
+      "height": 95.0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          95.0
+        ],
+        [
+          -240.0,
+          95.0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#1971c2",
+      "strokeWidth": 2,
+      "boundElements": [
+        {
+          "id": "t_a9",
+          "type": "text"
+        }
+      ],
+      "startBinding": {
+        "elementId": "b_razorpay",
+        "fixedPoint": [
+          0.5,
+          1
+        ]
+      },
+      "endBinding": {
+        "elementId": "b_paid",
+        "fixedPoint": [
+          1,
+          0.5
+        ]
+      }
+    },
+    {
+      "type": "text",
+      "id": "t_a9",
+      "x": 850.7,
+      "y": 1033.8,
+      "width": 138.6,
+      "height": 22.5,
+      "text": "signed webhook",
+      "fontSize": 18,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "a9",
+      "originalText": "signed webhook",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "type": "arrow",
+      "id": "a10",
+      "x": 640,
+      "y": 1090,
+      "width": 0,
+      "height": 50,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          50
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#1971c2",
+      "strokeWidth": 2,
+      "startBinding": {
+        "elementId": "b_paid",
+        "fixedPoint": [
+          0.5,
+          1
+        ]
+      },
+      "endBinding": {
+        "elementId": "b_db",
+        "fixedPoint": [
+          0.5,
+          0
+        ]
+      },
+      "boundElements": [
+        {
+          "id": "t_a10",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "t_a10",
+      "x": 541.0,
+      "y": 1103.8,
+      "width": 198.0,
+      "height": 22.5,
+      "text": "everything persisted",
+      "fontSize": 18,
+      "fontFamily": 2,
+      "strokeColor": "#1e1e1e",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "a10",
+      "originalText": "everything persisted",
+      "autoResize": true,
+      "lineHeight": 1.25
+    }
+  ],
+  "appState": {
+    "viewBackgroundColor": "#ffffff"
+  }
+}

@@ -23,15 +23,27 @@ export async function merchantDashboard(now = new Date()) {
   const allAccept = await db.select().from(quoteAcceptances);
   const allLinks = await db.select().from(paymentLinks);
   const allRes = await db.select().from(resourceReservations);
-  const recentAudit = await db.select().from(auditEvents).orderBy(desc(auditEvents.createdAt)).limit(20);
+  const recentAudit = await db
+    .select()
+    .from(auditEvents)
+    .orderBy(desc(auditEvents.createdAt))
+    .limit(20);
   const quotedValue = allQuotes
     .filter((q) => q.status === 'offered' || q.status === 'accepted')
     .reduce((sum, q) => sum + q.totalPrice, 0n);
   const held = allRes
     .filter((r) => r.status === 'active')
     .reduce((sum, r) => sum + BigInt(r.units), 0n);
-  const paid = allLinks.filter((l) => l.status === 'paid').reduce((sum, l) => sum + l.amountPaid, 0n);
-  const blocked = recentAudit.filter((e) => e.eventType.includes('blocked') || e.eventType.includes('security')).length;
+  const paid = allLinks
+    .filter((l) => l.status === 'paid')
+    .reduce((sum, l) => sum + l.amountPaid, 0n);
+  const blocked = recentAudit.filter(
+    (e) => e.eventType.includes('blocked') || e.eventType.includes('security'),
+  ).length;
+  const quoteIds = allQuotes.map((q) => q.id);
+  const items = quoteIds.length
+    ? await db.select().from(quoteItems).where(inArray(quoteItems.quoteId, quoteIds))
+    : [];
   return {
     kpis: {
       activeEnquiries: allRfqs.filter((r) => !['closed', 'escalated'].includes(r.status)).length,
@@ -42,6 +54,7 @@ export async function merchantDashboard(now = new Date()) {
     },
     rfqs: allRfqs.slice(0, 20),
     quotes: allQuotes,
+    items,
     acceptances: allAccept,
     links: allLinks,
     audit: recentAudit,
@@ -54,23 +67,39 @@ export async function merchantRfqDetail(id: string, now = new Date()) {
   if (!rfq) return null;
   const rfqQuotes = await db.select().from(quotes).where(eq(quotes.rfqId, id));
   const items = rfqQuotes.length
-    ? await db.select().from(quoteItems).where(inArray(quoteItems.quoteId, rfqQuotes.map((q) => q.id)))
+    ? await db
+        .select()
+        .from(quoteItems)
+        .where(
+          inArray(
+            quoteItems.quoteId,
+            rfqQuotes.map((q) => q.id),
+          ),
+        )
     : [];
   const evals: unknown[] = [];
   const evaluations = rfqQuotes.length
-    ? await db.select().from(policyEvaluations).where(inArray(policyEvaluations.quoteId, rfqQuotes.map((q) => q.id)))
+    ? await db
+        .select()
+        .from(policyEvaluations)
+        .where(
+          inArray(
+            policyEvaluations.quoteId,
+            rfqQuotes.map((q) => q.id),
+          ),
+        )
     : [];
   const acceptance = rfqQuotes.find((q) => q.status === 'accepted')
+    ? (await db.select().from(quoteAcceptances).where(eq(quoteAcceptances.rfqId, id)).limit(1))[0]
+    : undefined;
+  const link = acceptance
     ? (
         await db
           .select()
-          .from(quoteAcceptances)
-          .where(eq(quoteAcceptances.rfqId, id))
+          .from(paymentLinks)
+          .where(eq(paymentLinks.acceptanceId, acceptance.id))
           .limit(1)
       )[0]
-    : undefined;
-  const link = acceptance
-    ? (await db.select().from(paymentLinks).where(eq(paymentLinks.acceptanceId, acceptance.id)).limit(1))[0]
     : undefined;
   const reservations = acceptance
     ? await db
@@ -79,7 +108,15 @@ export async function merchantRfqDetail(id: string, now = new Date()) {
         .where(eq(resourceReservations.quoteAcceptanceId, acceptance.id))
     : [];
   const pendingApprovals = rfqQuotes.length
-    ? await db.select().from(approvals).where(inArray(approvals.quoteId, rfqQuotes.map((q) => q.id)))
+    ? await db
+        .select()
+        .from(approvals)
+        .where(
+          inArray(
+            approvals.quoteId,
+            rfqQuotes.map((q) => q.id),
+          ),
+        )
     : [];
   const timeline = await db
     .select()
@@ -102,10 +139,7 @@ export async function merchantRfqDetail(id: string, now = new Date()) {
 
 export async function hallCalendar(now = new Date()) {
   await expireStaleReservations(db, now);
-  const halls = await db
-    .select()
-    .from(offerings)
-    .where(eq(offerings.merchantId, MERCHANT_ID));
+  const halls = await db.select().from(offerings).where(eq(offerings.merchantId, MERCHANT_ID));
   const hallIds = halls.filter((h) => h.category === 'hall').map((h) => h.id);
   const slots = hallIds.length
     ? await db.select().from(resourceSlots).where(inArray(resourceSlots.offeringId, hallIds))
@@ -125,21 +159,19 @@ export async function hallCalendar(now = new Date()) {
         .map((slot) => {
           const overlapping = reservations.filter(
             (r) =>
-              r.resourceSlotId === slot.id &&
-              (r.status === 'active' || r.status === 'committed'),
+              r.resourceSlotId === slot.id && (r.status === 'active' || r.status === 'committed'),
           );
-          const state =
-            overlapping.some((r) => r.status === 'committed')
-              ? ('committed' as const)
-              : overlapping.some((r) => r.status === 'active')
-                ? ('held' as const)
-                : slot.blockedUnits > 0
-                  ? ('blocked' as const)
-                  : ('available' as const);
+          const state = overlapping.some((r) => r.status === 'committed')
+            ? ('committed' as const)
+            : overlapping.some((r) => r.status === 'active')
+              ? ('held' as const)
+              : slot.blockedUnits > 0
+                ? ('blocked' as const)
+                : ('available' as const);
           return { slot, state };
         })
         .sort((a, b) => a.slot.startsAt.getTime() - b.slot.startsAt.getTime())
-        .slice(0, 18),
+        .slice(0, 42),
     }));
 }
 
@@ -147,9 +179,17 @@ export async function publicQuote(id: string) {
   const [quote] = await db.select().from(quotes).where(eq(quotes.id, id)).limit(1);
   if (!quote) return null;
   const items = await db.select().from(quoteItems).where(eq(quoteItems.quoteId, id));
-  const [acceptance] = await db.select().from(quoteAcceptances).where(eq(quoteAcceptances.quoteId, id)).limit(1);
+  const [acceptance] = await db
+    .select()
+    .from(quoteAcceptances)
+    .where(eq(quoteAcceptances.quoteId, id))
+    .limit(1);
   const [link] = acceptance
-    ? await db.select().from(paymentLinks).where(eq(paymentLinks.acceptanceId, acceptance.id)).limit(1)
+    ? await db
+        .select()
+        .from(paymentLinks)
+        .where(eq(paymentLinks.acceptanceId, acceptance.id))
+        .limit(1)
     : [undefined];
   return {
     quote: {

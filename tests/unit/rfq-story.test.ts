@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   buyerNextAction,
+  enquiryDecision,
   enquiryHeadline,
   humanizePlanningFailures,
   parseEscalationAttempts,
@@ -42,5 +43,26 @@ describe('merchant RFQ story', () => {
         requested_date: '2026-09-04',
       }),
     ).toBe('product launch · 120 guests · 2026-09-04');
+  });
+
+  it('states the decision next to an enquiry', () => {
+    expect(
+      enquiryDecision({
+        status: 'quoted',
+        quotes: [{ status: 'offered', totalPrice: 19600000n }],
+        itemNames: ['Grand Hall', 'Standard dinner'],
+        accepted: false,
+        depositPaid: false,
+      }),
+    ).toBe('Quoted Grand Hall · Standard dinner · ₹1,96,000');
+    expect(
+      enquiryDecision({
+        status: 'escalated',
+        quotes: [],
+        itemNames: [],
+        accepted: false,
+        depositPaid: false,
+      }),
+    ).toBe('Stopped — no safe package');
   });
 });

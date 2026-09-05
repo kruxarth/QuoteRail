@@ -1,19 +1,20 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
-import { Geist_Mono, Source_Sans_3, Source_Serif_4 } from 'next/font/google';
+import { Cardo, DM_Sans, Geist_Mono } from 'next/font/google';
 import { SiteFooter, SiteHeader } from '@/components/site-chrome';
+import { WebMcpRoot } from '@/components/webmcp-root';
 import './globals.css';
 
-const body = Source_Sans_3({
+const body = DM_Sans({
   variable: '--font-body',
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
+  weight: ['400', '500'],
 });
 
-const display = Source_Serif_4({
+const display = Cardo({
   variable: '--font-display',
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
+  weight: '400',
 });
 
 const geistMono = Geist_Mono({
@@ -23,13 +24,17 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Mosaic Events · Bengaluru',
-  description: 'Grand Hall and Studio Hall in Indiranagar. Corporate launches, quoted by your agent, paid on Razorpay.',
+  description: 'AI-agent first booking hall, now in your city. Mosaic Events, Indiranagar.',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${body.variable} ${display.variable} ${geistMono.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${body.variable} ${display.variable} ${geistMono.variable} h-full antialiased`}
+    >
       <body className="flex min-h-full flex-col font-sans">
+        <WebMcpRoot />
         <SiteHeader />
         <div className="flex-1">{children}</div>
         <SiteFooter />

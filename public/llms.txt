@@ -1,10 +1,12 @@
 Mosaic Events Bengaluru is bookable by purchasing agents.
 
-No API token. POST a natural-language brief to /api/enquire as JSON: { "request": "..." }.
-Keep the ticket from the response. Send it on later calls as header X-Mosaic-Ticket or JSON { "ticket": "..." }.
-Do not ask the human for MOSAIC_BUYER_TOKEN.
+If you have this origin open in a WebMCP-capable browser (ChatGPT desktop in-app browser), use the site tools on the page. Do not invent HTTP GET or POST. Do not ask the human for an API token.
+
+Site tools: get_merchant_profile, search_venue_services, request_quote, continue_rfq, get_rfq, revise_quote, accept_quote, create_checkout, get_transaction_status.
+
+The tab keeps the ticket after request_quote. Later tools send it. After create_checkout, give the human checkout_url. Card details stay on Razorpay.
+
+Fallback for agents that cannot use WebMCP: POST a natural-language brief to /api/enquire as JSON { "request": "..." }. Keep the ticket. Send it as header X-Mosaic-Ticket or JSON { "ticket": "..." }.
 
 Machine contract: /.well-known/agent-commerce.json
-Optional MCP: /api/mcp (bearer optional; enquire also works over MCP without a token — keep the returned ticket).
-
-Card details are entered only on Razorpay.
+Optional remote MCP: /api/mcp

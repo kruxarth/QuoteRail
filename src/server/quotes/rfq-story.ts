@@ -54,7 +54,10 @@ export function parseEscalationAttempts(summary: string | null | undefined): Esc
       const name = (namePart ?? 'Package').trim();
       const bracket = rest?.match(/\[([^\]]+)\]/)?.[1];
       const fromList = bracket
-        ? bracket.split(',').map((id) => id.trim()).filter(Boolean)
+        ? bracket
+            .split(',')
+            .map((id) => id.trim())
+            .filter(Boolean)
         : [...(rest ?? '').matchAll(/[A-Z][A-Z0-9_]+/g)].map((match) => match[0]);
       const unique = [...new Set(fromList)].filter((id) => id !== 'Blocked');
       return { name, blockers: unique };
@@ -76,7 +79,10 @@ export function humanizePlanningFailures(
   if (blob.includes('HALL_CAPACITY')) {
     return 'No hall in the catalog can seat this many guests. Mosaic needs to handle this enquiry by hand.';
   }
-  return failures.join('; ') || 'No safe package after two planning attempts. Mosaic should follow up directly.';
+  return (
+    failures.join('; ') ||
+    'No safe package after two planning attempts. Mosaic should follow up directly.'
+  );
 }
 
 export function buyerNextAction(status: string): string | undefined {
@@ -114,7 +120,8 @@ export function rfqStatusCopy(status: string): {
         title: 'Quoted',
         tone: 'ok',
         what: 'The buyer agent has bookable alternatives with server-owned prices.',
-        sellerNext: 'Watch this page. If they accept, you will see a hold and then a Razorpay deposit.',
+        sellerNext:
+          'Watch this page. If they accept, you will see a hold and then a Razorpay deposit.',
       };
     case 'needs_clarification':
       return {
@@ -137,6 +144,13 @@ export function rfqStatusCopy(status: string): {
         what: 'The seller agent is proposing and checking packages.',
         sellerNext: 'Wait — this page refreshes on its own.',
       };
+    case 'received':
+      return {
+        title: 'Just in',
+        tone: 'info',
+        what: 'The brief landed. Mosaic has not priced it yet.',
+        sellerNext: 'Wait a moment — extraction and planning start on their own.',
+      };
     case 'closed':
       return {
         title: 'Closed',
@@ -157,15 +171,18 @@ export function rfqStatusCopy(status: string): {
 export function requirementFacts(requirements: unknown): Array<{ label: string; value: string }> {
   if (!requirements || typeof requirements !== 'object') return [];
   const req = requirements as Record<string, unknown>;
-  const meals = req.meal_requirements && typeof req.meal_requirements === 'object'
-    ? (req.meal_requirements as Record<string, unknown>)
-    : null;
-  const budget = typeof req.budget_subunits === 'number' ? formatInr(BigInt(req.budget_subunits)) : null;
+  const meals =
+    req.meal_requirements && typeof req.meal_requirements === 'object'
+      ? (req.meal_requirements as Record<string, unknown>)
+      : null;
+  const budget =
+    typeof req.budget_subunits === 'number' ? formatInr(BigInt(req.budget_subunits)) : null;
   const caps = Array.isArray(req.required_capabilities)
     ? req.required_capabilities.map(String).join(', ')
     : '';
   const facts: Array<{ label: string; value: string }> = [];
-  if (req.event_type) facts.push({ label: 'Event', value: String(req.event_type).replaceAll('_', ' ') });
+  if (req.event_type)
+    facts.push({ label: 'Event', value: String(req.event_type).replaceAll('_', ' ') });
   if (req.requested_date) {
     facts.push({
       label: 'When',
@@ -177,7 +194,8 @@ export function requirementFacts(requirements: unknown): Array<{ label: string; 
   if (req.layout) facts.push({ label: 'Layout', value: String(req.layout) });
   if (budget) facts.push({ label: 'Budget ceiling', value: budget });
   if (req.payment_preference) facts.push({ label: 'Pay', value: String(req.payment_preference) });
-  if (req.parking_preference) facts.push({ label: 'Parking', value: String(req.parking_preference) });
+  if (req.parking_preference)
+    facts.push({ label: 'Parking', value: String(req.parking_preference) });
   if (caps) facts.push({ label: 'Asked for', value: caps.replaceAll('_', ' ') });
   if (meals) {
     facts.push({
@@ -186,6 +204,42 @@ export function requirementFacts(requirements: unknown): Array<{ label: string; 
     });
   }
   return facts;
+}
+
+export function enquiryDecision(input: {
+  status: string;
+  quotes: Array<{ status: string; totalPrice: bigint }>;
+  itemNames: string[];
+  accepted: boolean;
+  depositPaid: boolean;
+}): string {
+  if (input.depositPaid) {
+    const price = input.quotes[0] ? formatInr(input.quotes[0].totalPrice) : null;
+    return price ? `Deposit paid · ${price}` : 'Deposit paid';
+  }
+  if (input.accepted) {
+    const price = input.quotes.find((q) => q.status === 'accepted') ?? input.quotes[0];
+    return price ? `Accepted · ${formatInr(price.totalPrice)}` : 'Accepted, awaiting deposit';
+  }
+  if (input.status === 'escalated') return 'Stopped — no safe package';
+  if (input.status === 'needs_clarification') return 'Asked for missing details';
+  if (input.status === 'planning') return 'Still pricing';
+  if (input.status === 'retryable_error') return 'Seller model failed — they can retry';
+  if (input.status === 'closed') return 'Closed';
+
+  const live = input.quotes.filter((q) => q.status === 'offered' || q.status === 'accepted');
+  if (live.length === 0) return 'No package yet';
+
+  const hall = input.itemNames.find((name) => /hall/i.test(name));
+  const extras = input.itemNames.filter((name) => name !== hall).slice(0, 2);
+  const packageLine = [hall, extras.join(', ')].filter(Boolean).join(' · ');
+  const cheapest = live.reduce((a, b) => (a.totalPrice <= b.totalPrice ? a : b));
+  const from = formatInr(cheapest.totalPrice);
+  if (live.length === 1)
+    return packageLine ? `Quoted ${packageLine} · ${from}` : `Quoted · ${from}`;
+  return packageLine
+    ? `Quoted ${live.length} options · ${packageLine} · from ${from}`
+    : `Quoted ${live.length} options · from ${from}`;
 }
 
 export function enquiryHeadline(raw: string, requirements: unknown): string {

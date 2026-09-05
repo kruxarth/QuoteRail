@@ -1,13 +1,14 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
-  --background: #f6f1ea;
-  --foreground: #1c1814;
-  --brand: #1e332c;
-  --brand-dark: #15241f;
-  --accent: #a67c52;
-  --muted: #6f675c;
-  --line: #e2d8cc;
+  --background: #f0eeeb;
+  --foreground: #121212;
+  --brand: #121212;
+  --brand-dark: #000000;
+  --accent: #313131;
+  --muted: #6a6560;
+  --line: #ddd6cc;
+  --parchment-warm: #ebe3db;
 }
 
 @theme inline {
@@ -18,17 +19,15 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation: none !important;
-    transition: none !important;
-  }
+html {
+  background: var(--background);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  overflow-x: hidden;
 }
 
 .font-serif,
@@ -36,6 +35,154 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display), ui-serif, Georgia, serif;
-  font-weight: 500;
-  letter-spacing: -0.02em;
+  font-weight: 400;
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+}
+
+.kicker {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.pill {
+  display: inline-flex;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0 1.75rem;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+}
+
+@keyframes story-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1.35rem, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.story-reveal {
+  animation: story-rise linear both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 32%;
+}
+
+.ritual-step {
+  animation: story-rise 0.55s ease both;
+}
+
+@keyframes hero-settle {
+  from {
+    transform: scale(1.14);
+  }
+  to {
+    transform: scale(1.05);
+  }
+}
+
+.hero-photo {
+  animation: hero-settle 22s ease-out both;
+}
+
+@keyframes scroll-pulse {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scaleY(0.55);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scaleY(1);
+  }
+}
+
+.scroll-hint-line {
+  transform-origin: top center;
+  animation: scroll-pulse 2.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .story-reveal,
+  .hero-photo,
+  .scroll-hint-line {
+    animation: none !important;
+  }
+
+  .pin-scene {
+    height: auto !important;
+  }
+
+  .pin-sticky {
+    position: relative !important;
+    height: auto !important;
+    min-height: 100svh;
+  }
+
+  .pin-stack {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    min-height: 0 !important;
+  }
+
+  @media (min-width: 768px) {
+    .pin-stack {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .pin-layer {
+    position: relative !important;
+    opacity: 1 !important;
+    min-height: 70svh;
+  }
+
+  .pin-copy {
+    position: relative !important;
+    background: var(--background);
+    color: var(--foreground) !important;
+    padding-bottom: 4rem;
+  }
+
+  .pin-copy .pin-copy-muted {
+    color: var(--muted) !important;
+  }
+
+  .ritual-step {
+    opacity: 1 !important;
+    position: relative !important;
+    transform: none !important;
+  }
+
+  .ritual-watermark {
+    display: none !important;
+  }
+
+  .ritual-steps {
+    min-height: 0 !important;
+    display: grid;
+    gap: 3.5rem;
+  }
+
+  .film-track {
+    transform: none !important;
+    flex-wrap: wrap;
+    height: auto !important;
+  }
+
+  .film-track figure {
+    width: 50vw !important;
+    min-height: 40vh;
+  }
 }
