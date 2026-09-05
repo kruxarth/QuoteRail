@@ -24,7 +24,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Mosaic Events · Bengaluru',
-  description: 'AI-agent first booking hall, now in your city. Mosaic Events, Indiranagar.',
+  description:
+    'AI-agent first booking hall, now in your city. Open Mosaic in ChatGPT. Mosaic Events, Indiranagar.',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

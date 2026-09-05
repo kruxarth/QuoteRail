@@ -4,7 +4,37 @@ Razorpay AI Buildathon · Track 01: AI Growth & Agentic Commerce.
 
 **QuoteRail turns complex corporate-event enquiries into feasible, reservable, policy-compliant Razorpay checkouts, while preventing buyer agents from manipulating price, availability, or payment state.**
 
-This is a merchant-side system for **Mosaic Events Bengaluru**. The buyer brings an existing MCP-capable agent (the recorded demo uses OpenCode). QuoteRail is not another shopping agent, not WebMCP, and not Razorpay's official MCP — it reasons over venue constraints, then lets deterministic code own price, capacity, policy, and payment state.
+This is a merchant-side system for **Mosaic Events Bengaluru**. The public house is bookable by a purchasing agent. The recorded demo opens Mosaic in **ChatGPT’s in-app browser**, which discovers **WebMCP site tools** on the page. QuoteRail is not another shopping agent and not Razorpay’s official MCP — it reasons over venue constraints, then lets deterministic code own price, capacity, policy, and payment state.
+
+## How an agent books
+
+ChatGPT (GPT-5.6 Sol or Terra) opens this origin. The page registers the same nine tools on `document.modelContext`. The agent calls those tools in the tab. It should not invent HTTP GET/POST, and it should not ask the human for an API token. Luna currently has WebMCP disabled.
+
+```mermaid
+flowchart LR
+    Human[Human buyer] --> ChatGPT[ChatGPT in-app browser]
+    ChatGPT -->|WebMCP site tools| Page[Mosaic page]
+    Page --> API[Quote application service]
+    API --> Planner[Bounded RFQ planner]
+    Planner --> Luna[gpt-5.6-luna extract / plan]
+    API --> Policy[Pricing and policy]
+    API --> DB[(PostgreSQL)]
+    API --> Razorpay[Razorpay Payment Links]
+    Razorpay --> Human
+    Merchant[Staff board] --> DB
+```
+
+After `request_quote`, the tab stores the ticket and later tools send it. After `create_checkout`, the human pays on Razorpay. Mosaic never collects card details.
+
+Site tools (also the remote MCP tool list):
+
+`get_merchant_profile` · `search_venue_services` · `request_quote` · `continue_rfq` · `get_rfq` · `revise_quote` · `accept_quote` · `create_checkout` · `get_transaction_status`
+
+Fallbacks if the agent is not in a WebMCP browser:
+
+- HTTP: `POST /api/enquire` with `{ "request": "..." }`. Keep `ticket`. Send it as `X-Mosaic-Ticket` or JSON `{ "ticket": "..." }`.
+- Remote MCP: `POST /api/mcp` (OpenCode and similar). Enquire works without a bearer; later calls use the returned ticket.
+- Machine contract: `/.well-known/agent-commerce.json` and `/llms.txt`.
 
 ## Safety invariants
 
@@ -28,6 +58,8 @@ pnpm db:seed
 pnpm dev
 ```
 
+Open `/` or `/agent` in a WebMCP-capable browser to see the site tools. `Origin-Agent-Cluster: ?1` is set on responses so native WebMCP can run.
+
 ## Tests
 
 ```bash
@@ -43,11 +75,9 @@ pnpm eval
 
 Real Razorpay calls require `REAL_RAZORPAY_TESTS_ENABLED=true` and test keys. They are never run in CI. Razorpay test mode has a 30 Payment Link quota.
 
-## MCP (OpenCode)
+## Remote MCP (OpenCode fallback)
 
-See `/agent` for the live URL. Locked config:
-
-See `/agent` for the live URL. Locked config:
+Optional. Locked config:
 
 ```json
 {
@@ -67,7 +97,7 @@ See `/agent` for the live URL. Locked config:
 }
 ```
 
-Pinned packages: Next.js 16.3.3, `@modelcontextprotocol/server` 2.0.0, `ai` 7.x, `@ai-sdk/openai` 4.x. OpenCode Go `baseURL` is `https://opencode.ai/zen/go/v1`; the Responses factory posts to `/responses`. Seller model is `gpt-5.6-luna`.
+Pinned packages: Next.js 16.3.3, `usewebmcp` 5.x, `@modelcontextprotocol/server` 2.0.0, `ai` 7.x, `@ai-sdk/openai` 4.x. OpenCode Go `baseURL` is `https://opencode.ai/zen/go/v1`; the Responses factory posts to `/responses`. Seller model is `gpt-5.6-luna`.
 
 ## Limitations
 

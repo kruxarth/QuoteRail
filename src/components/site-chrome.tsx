@@ -112,8 +112,8 @@ export function SiteFooter() {
           <p className="mt-4">bookings@mosaicevents.in</p>
         </div>
         <div className="text-sm leading-7 text-white/55">
-          <p>Deposits on Razorpay.</p>
-          <p>Forty-eight hours’ notice, including setup.</p>
+          <p>Open this house in ChatGPT.</p>
+          <p>Deposits on Razorpay. Forty-eight hours’ notice, including setup.</p>
           <p className="mt-4">
             <Link href="/agent" className="underline decoration-white/25 underline-offset-4">
               How to book

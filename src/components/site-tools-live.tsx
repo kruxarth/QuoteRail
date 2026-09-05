@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { cn } from '@/lib/utils';
 
-export function SiteToolsLive() {
+export function SiteToolsLive({ className }: { className?: string }) {
   const [live, setLive] = useState(false);
 
   useEffect(() => {
@@ -17,5 +18,9 @@ export function SiteToolsLive() {
   }, []);
 
   if (!live) return null;
-  return <p className="kicker mt-8 text-[var(--accent)]">WebMCP site tools · live in this tab</p>;
+  return (
+    <p className={cn('kicker mt-8 text-[var(--accent)]', className)}>
+      WebMCP site tools · live in this tab
+    </p>
+  );
 }

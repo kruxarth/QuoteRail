@@ -67,7 +67,8 @@ export default async function PublicQuotePage({ params }: { params: Promise<{ id
         </p>
       ) : (
         <p className="mt-8 text-sm text-[var(--muted)]">
-          Review only. Confirm the package and pay the deposit from your purchasing agent.
+          Review only. Confirm the package from ChatGPT’s site tools. The deposit is paid on
+          Razorpay.
         </p>
       )}
     </main>

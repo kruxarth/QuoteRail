@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { SiteToolsLive } from '@/components/site-tools-live';
 
 const TAGLINE = 'AI-agent first booking hall, now in your city.';
 
@@ -39,7 +40,7 @@ const RITUAL = [
   {
     n: '01',
     title: 'Ask your agent',
-    copy: 'Open Mosaic in ChatGPT. Tell it Indiranagar, the date, the people. The tab already has the booking tools.',
+    copy: 'Open this house in ChatGPT. Tell it Indiranagar, the date, the people. Site tools appear in the tab — no API token.',
   },
   {
     n: '02',
@@ -145,7 +146,7 @@ function Hero() {
         <p className="kicker text-[var(--accent)]">Mosaic Events · Indiranagar</p>
         <h1 className="mt-5 max-w-5xl font-serif text-4xl leading-[1.06] md:text-7xl">{TAGLINE}</h1>
         <p className="mt-6 max-w-lg text-base leading-relaxed text-[var(--accent)] md:text-lg">
-          Two rooms on 100 Feet Road. Your agent books. You hold the evening on Razorpay.
+          Two rooms on 100 Feet Road. Open this house in ChatGPT. You hold the evening on Razorpay.
         </p>
         <Link href="/agent" className="pill mt-10 bg-[var(--foreground)] text-[var(--background)]">
           How to book
@@ -165,7 +166,7 @@ function Interlude() {
       <p className="story-reveal font-serif text-3xl leading-snug text-balance md:text-6xl">
         Not a form. Not a phone tree.
         <br />
-        Your agent already speaks the house.
+        Open Mosaic in ChatGPT. The booking tools are already in the tab.
       </p>
     </section>
   );
@@ -395,9 +396,10 @@ function CloseChapter() {
           {TAGLINE}
         </h2>
         <p className="story-reveal mx-auto mt-6 max-w-md text-base leading-relaxed text-[var(--muted)]">
-          Open this house in ChatGPT. Mosaic’s booking tools appear in the tab. You approve the
-          deposit. That is the whole motion.
+          Open this house in ChatGPT. Mosaic’s site tools appear in the tab — quote, accept,
+          checkout. You approve the deposit. That is the whole motion.
         </p>
+        <SiteToolsLive className="story-reveal mt-8" />
         <Link
           href="/agent"
           className="pill story-reveal mt-12 bg-[var(--foreground)] text-[var(--background)]"

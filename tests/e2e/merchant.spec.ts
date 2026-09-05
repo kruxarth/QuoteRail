@@ -29,6 +29,7 @@ test('agent page explains booking without a token', async ({ page }) => {
 
 test('public pages register WebMCP site tools', async ({ page }) => {
   await page.goto('/');
+  await expect(page.getByText(/Open this house in ChatGPT/i).first()).toBeVisible();
   await expect(page.locator('html')).toHaveAttribute('data-webmcp', 'ready', { timeout: 15_000 });
   const names = await page.evaluate(async () => {
     const tools = await document.modelContext?.getTools?.();
